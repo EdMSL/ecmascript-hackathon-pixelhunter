@@ -1,4 +1,4 @@
-import {setScreen} from './utils.js';
-import intro from './intro.js';
+import {renderScreen} from './utils.js';
+import introScreen from './intro.js';
 
-setScreen(intro);
+renderScreen(introScreen);

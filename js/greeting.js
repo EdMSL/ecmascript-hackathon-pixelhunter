@@ -1,6 +1,7 @@
-import {makeElementFromTemplate} from './utils.js';
+import {makeElementFromTemplate, renderScreen} from './utils.js';
+import rulesScreen from './rules.js';
 
-const greeting = makeElementFromTemplate(`
+const greetingScreen = makeElementFromTemplate(`
   <section class="greeting central--blur">
   <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
   <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
@@ -26,4 +27,13 @@ const greeting = makeElementFromTemplate(`
   </section>
 `);
 
-export default greeting;
+const greetingButton = greetingScreen.querySelector(`.greeting__continue`);
+
+const onGreetingButtonClick = (evt) => {
+  evt.preventDefault();
+  renderScreen(rulesScreen);
+};
+
+greetingButton.addEventListener(`click`, onGreetingButtonClick);
+
+export default greetingScreen;

@@ -11,12 +11,12 @@ const clearScreen = () => {
   main.innerHTML = ``;
 };
 
-const setScreen = (elem) => {
+const renderScreen = (elem) => {
   clearScreen();
   main.appendChild(elem);
 };
 
 export {
   makeElementFromTemplate,
-  setScreen
+  renderScreen
 };

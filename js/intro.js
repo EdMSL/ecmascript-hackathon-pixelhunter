@@ -1,6 +1,7 @@
-import {makeElementFromTemplate} from './utils.js';
+import {makeElementFromTemplate, renderScreen} from './utils.js';
+import greetingScreen from './greeting.js';
 
-const intro = makeElementFromTemplate(`
+const introScreen = makeElementFromTemplate(`
   <section id="intro" class="intro">
   <button class="intro__asterisk asterisk" type="button"><span class="visually-hidden">Продолжить</span>*</button>
   <p class="intro__motto"><sup>*</sup> Это не фото. Это рисунок маслом нидерландского художника-фотореалиста Tjalf Sparnaay.</p>
@@ -10,4 +11,13 @@ const intro = makeElementFromTemplate(`
   </section>
 `);
 
-export default intro;
+const introButton = introScreen.querySelector(`.intro__asterisk`);
+
+const onIntroButtonClick = (evt) => {
+  evt.preventDefault();
+  renderScreen(greetingScreen);
+};
+
+introButton.addEventListener(`click`, onIntroButtonClick);
+
+export default introScreen;

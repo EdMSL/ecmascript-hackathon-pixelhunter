@@ -1,6 +1,6 @@
 import {makeElementFromTemplate} from './utils.js';
 
-const rules = makeElementFromTemplate(`
+const rulesScreen = makeElementFromTemplate(`
   <header class="header">
   <button class="back">
     <span class="visually-hidden">Вернуться к началу</span>
@@ -30,4 +30,4 @@ const rules = makeElementFromTemplate(`
   </section>
 `);
 
-export default rules;
+export default rulesScreen;
