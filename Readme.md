@@ -1,4 +1,8 @@
-# Хакатон проект «Пиксельхантер» [![Build status][travis-image]][travis-url]
+# Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
+
+* Студент: [Трайт Эдуард](https://htmlacademy.ru/profile/edmsl).
+* Наставник: [Выполняю самостоятельно].
+
 
 ---
 
