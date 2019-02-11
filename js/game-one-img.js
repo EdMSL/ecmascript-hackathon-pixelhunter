@@ -1,6 +1,6 @@
 import {makeElementFromTemplate} from './utils.js';
 
-const gameOneImg = makeElementFromTemplate(`
+const gameOneImgScreen = makeElementFromTemplate(`
   <header class="header">
   <button class="back">
     <span class="visually-hidden">Вернуться к началу</span>
@@ -59,4 +59,4 @@ const gameOneImg = makeElementFromTemplate(`
   </section>
 `);
 
-export default gameOneImg;
+export default gameOneImgScreen;

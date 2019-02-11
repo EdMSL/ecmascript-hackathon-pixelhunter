@@ -1,4 +1,8 @@
-import {makeElementFromTemplate} from './utils.js';
+import {makeElementFromTemplate, renderScreen} from './utils.js';
+import {toMainScreenButtonClick} from './controls.js';
+import gameOnewImgScreen from './game-one-img.js';
+
+const NAME_MIN_LENGTH = 3;
 
 const rulesScreen = makeElementFromTemplate(`
   <header class="header">
@@ -29,5 +33,27 @@ const rulesScreen = makeElementFromTemplate(`
   </form>
   </section>
 `);
+
+const toMainScreenButton = rulesScreen.querySelector(`.back`);
+const rulesForm = rulesScreen.querySelector(`.rules__form`);
+const rulesInput = rulesScreen.querySelector(`.rules__input`);
+const rulesButton = rulesScreen.querySelector(`.rules__button`);
+
+const onRulesInputChange = () => {
+  if (rulesInput.value.length >= NAME_MIN_LENGTH) {
+    rulesButton.disabled = ``;
+  } else {
+    rulesButton.disabled = `true`;
+  }
+};
+
+const onRulesFormSubmit = (evt) => {
+  evt.preventDefault();
+  renderScreen(gameOnewImgScreen);
+};
+
+toMainScreenButton.addEventListener(`click`, toMainScreenButtonClick);
+rulesInput.addEventListener(`input`, onRulesInputChange);
+rulesForm.addEventListener(`submit`, onRulesFormSubmit);
 
 export default rulesScreen;
