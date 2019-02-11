@@ -1,6 +1,8 @@
-import {makeElementFromTemplate} from './utils.js';
+import {makeElementFromTemplate, renderScreen} from './utils.js';
+import {onToMainScreenButtonClick} from './controls.js';
+import statsScreen from './stats.js';
 
-const gameThreeImg = makeElementFromTemplate(`
+const gameThreeImgScreen = makeElementFromTemplate(`
   <header class="header">
   <button class="back">
     <span class="visually-hidden">Вернуться к началу</span>
@@ -46,4 +48,20 @@ const gameThreeImg = makeElementFromTemplate(`
   </section>
 `);
 
-export default gameThreeImg;
+const toMainScreenButton = gameThreeImgScreen.querySelector(`.back`);
+const gameContentForm = gameThreeImgScreen.querySelector(`.game__content`);
+
+const onGameOptionImgClick = (evt) => {
+  const target = evt.target;
+
+  if (target.tagName !== `IMG`) {
+    return;
+  }
+
+  renderScreen(statsScreen);
+};
+
+toMainScreenButton.addEventListener(`click`, onToMainScreenButtonClick);
+gameContentForm.addEventListener(`click`, onGameOptionImgClick);
+
+export default gameThreeImgScreen;

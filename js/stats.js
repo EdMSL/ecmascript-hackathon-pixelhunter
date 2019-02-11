@@ -1,6 +1,7 @@
 import {makeElementFromTemplate} from './utils.js';
+import {onToMainScreenButtonClick} from './controls.js';
 
-const stats = makeElementFromTemplate(`
+const statsScreen = makeElementFromTemplate(`
   <header class="header">
   <button class="back">
     <span class="visually-hidden">Вернуться к началу</span>
@@ -114,4 +115,8 @@ const stats = makeElementFromTemplate(`
   </section>
 `);
 
-export default stats;
+const toMainScreenButton = statsScreen.querySelector(`.back`);
+
+toMainScreenButton.addEventListener(`click`, onToMainScreenButtonClick);
+
+export default statsScreen;
