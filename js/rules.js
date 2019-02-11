@@ -1,6 +1,6 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
-import {toMainScreenButtonClick} from './controls.js';
-import gameOnewImgScreen from './game-one-img.js';
+import {onToMainScreenButtonClick} from './controls.js';
+import gameTwoImgScreen from './game-two-img.js';
 
 const NAME_MIN_LENGTH = 3;
 
@@ -49,10 +49,10 @@ const onRulesInputChange = () => {
 
 const onRulesFormSubmit = (evt) => {
   evt.preventDefault();
-  renderScreen(gameOnewImgScreen);
+  renderScreen(gameTwoImgScreen);
 };
 
-toMainScreenButton.addEventListener(`click`, toMainScreenButtonClick);
+toMainScreenButton.addEventListener(`click`, onToMainScreenButtonClick);
 rulesInput.addEventListener(`input`, onRulesInputChange);
 rulesForm.addEventListener(`submit`, onRulesFormSubmit);
 
