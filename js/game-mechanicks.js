@@ -7,7 +7,7 @@ const PointsForGameStage = {
   LIVE: 50,
 };
 
-const getTotalPoints = (answersArr, lives) => {
+const getScore = (answersArr, lives) => {
   if (answersArr.length < TOTAL_QUESTIONS) {
     return -1;
   }
@@ -21,6 +21,36 @@ const getTotalPoints = (answersArr, lives) => {
   return totalPoints;
 };
 
+const deleteLive = (lives) => {
+  if (lives > 0) {
+    lives--;
+    return lives;
+  } else {
+    throw new Error(`Жизней больше нет`);
+  }
+};
+
+const changeLevel = (gameState, level) => {
+  if (level > 0) {
+    const newGameState = Object.assign({}, gameState, {level});
+    return newGameState;
+  } else {
+    throw new Error(`Значение должно быть больше 0`);
+  }
+};
+
+const createTimer = (time) => {
+  let timer = setInterval(() => {
+    time--;
+    if (time === 0) {
+      clearInterval(timer);
+    }
+  }, 1000);
+};
+
 export {
-  getTotalPoints
+  getScore,
+  deleteLive,
+  changeLevel,
+  createTimer
 };
