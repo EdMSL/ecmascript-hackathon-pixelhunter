@@ -91,6 +91,8 @@ const getGameScreen = (data) => {
     </section>
   `;
 
+  gameScreen = makeElementFromTemplate(gameScreenTemplate);
+
   const gameContentForm = gameTwoImgScreen.querySelector(`.game__content`);
   const radioInputsFirstQuestion = gameTwoImgScreen.querySelectorAll(`input[name="question1"]`);
   const radioInputsSecondQuestion = gameTwoImgScreen.querySelectorAll(`input[name="question2"]`);
