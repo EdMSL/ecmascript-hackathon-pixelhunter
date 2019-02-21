@@ -1,6 +1,7 @@
 const START_GAME_STATE = {
   level: 0,
   lives: 2,
+  maxLives: 2,
   time: 30,
 };
 

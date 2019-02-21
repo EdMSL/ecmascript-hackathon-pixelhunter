@@ -1,7 +1,10 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
-import rulesScreen from './rules.js';
+import getHeader from './header.js';
+import START_GAME_STATE from './game-data.js';
+import renderRulesScreen from './rules.js';
 
-const greetingScreen = makeElementFromTemplate(`
+const getGreetingScreen = () => {
+  const greetingScreen = makeElementFromTemplate(`
   <section class="greeting central--blur">
   <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
   <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
@@ -27,13 +30,16 @@ const greetingScreen = makeElementFromTemplate(`
   </section>
 `);
 
-const greetingButton = greetingScreen.querySelector(`.greeting__continue`);
+  const greetingButton = greetingScreen.querySelector(`.greeting__continue`);
 
-const onGreetingButtonClick = (evt) => {
-  evt.preventDefault();
-  renderScreen(rulesScreen);
+  const onGreetingButtonClick = (evt) => {
+    evt.preventDefault();
+    renderScreen([getHeader(START_GAME_STATE, false), renderRulesScreen()]);
+  };
+
+  greetingButton.addEventListener(`click`, onGreetingButtonClick);
+
+  return greetingScreen;
 };
 
-greetingButton.addEventListener(`click`, onGreetingButtonClick);
-
-export default greetingScreen;
+export default getGreetingScreen;

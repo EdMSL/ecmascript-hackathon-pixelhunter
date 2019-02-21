@@ -10,9 +10,9 @@ const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((elem
 
 const isAllRadioGroupsChecked = (radioGroupsArr) => radioGroupsArr.every((radioGroup) => isRadioGroupChecked(radioGroup));
 
-const changeGameScreen = (screen, array) => {
+const changeGameScreen = (screens, array) => {
   if (isAllRadioGroupsChecked(array)) {
-    renderScreen(screen);
+    renderScreen(screens);
   }
 };
 
