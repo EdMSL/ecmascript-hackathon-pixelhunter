@@ -2,23 +2,25 @@ import {makeElementFromTemplate} from './utils.js';
 import {changeGameScreen} from './controls.js';
 import getStats from './stats.js';
 import START_GAME_STATE from './game-data.js';
+// import gameQuestions from './game-questions.js';
 import getHeader from './header.js';
 
-const getGameScreen = (data) => {
-  let gameScreen;
+const getGameScreen = (question, gameState) => {
+  let gameScreenTemplate;
+
+  const fillState = (state) => {
+    let newArr = [];
+
+    for (let i = 0; i < state.answers.length; i++) {
+      newArr.push(`<li class="stats__result stats__result--${state.answers[i]}"></li>`);
+    }
+
+    return newArr.join(``);
+  };
 
   const gameStatsTemplate = `
     <ul class="stats">
-      <li class="stats__result stats__result--wrong"></li>
-      <li class="stats__result stats__result--slow"></li>
-      <li class="stats__result stats__result--fast"></li>
-      <li class="stats__result stats__result--correct"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
-      <li class="stats__result stats__result--unknown"></li>
+      ${fillState(gameState)}
     </ul>
   `;
 
@@ -85,17 +87,31 @@ const getGameScreen = (data) => {
     ${gameStatsTemplate}
   `;
 
-  const gameScreenTemplate = `
-    <section class="game">
+  if (question.length === 3) {
+    gameScreenTemplate = `
+      <section class="game">
+        ${threeImagesGameScreenTemplate}
+      </section>
+    `;
+  } else if (question.length === 2) {
+    gameScreenTemplate = `
+      <section class="game">
+        ${twoImagesGameScreenTemplate}
+      </section>
+    `;
+  } else {
+    gameScreenTemplate = `
+      <section class="game">
+        ${oneImageGameScreenTemplate}
+      </section>
+    `;
+  }
 
-    </section>
-  `;
+  const gameScreen = makeElementFromTemplate(gameScreenTemplate);
 
-  gameScreen = makeElementFromTemplate(gameScreenTemplate);
-
-  const gameContentForm = gameTwoImgScreen.querySelector(`.game__content`);
-  const radioInputsFirstQuestion = gameTwoImgScreen.querySelectorAll(`input[name="question1"]`);
-  const radioInputsSecondQuestion = gameTwoImgScreen.querySelectorAll(`input[name="question2"]`);
+  const gameContentForm = gameScreen.querySelector(`.game__content`);
+  const radioInputsFirstQuestion = gameScreen.querySelectorAll(`input[name="question1"]`);
+  const radioInputsSecondQuestion = gameScreen.querySelectorAll(`input[name="question2"]`);
 
   const onGameContentFormInputsChange = () => {
     changeGameScreen([getHeader(START_GAME_STATE, false), getStats()], [radioInputsFirstQuestion, radioInputsSecondQuestion]);

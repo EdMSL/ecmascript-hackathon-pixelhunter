@@ -2,6 +2,7 @@ import {makeElementFromTemplate, renderScreen} from './utils.js';
 import getHeader from './header.js';
 import START_GAME_STATE from './game-data.js';
 import getGameScreen from './game-screen.js';
+import gameQuestions from './game-questions.js';
 
 const renderRulesScreen = () => {
   const NAME_MIN_LENGTH = 3;
@@ -39,7 +40,7 @@ const renderRulesScreen = () => {
 
   const onRulesFormSubmit = (evt) => {
     evt.preventDefault();
-    renderScreen([getHeader(START_GAME_STATE, true), getGameScreen()]);
+    renderScreen([getHeader(START_GAME_STATE, true), getGameScreen(gameQuestions[0], START_GAME_STATE)]);
   };
 
   rulesInput.addEventListener(`input`, onRulesInputChange);

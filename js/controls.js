@@ -1,9 +1,9 @@
 import {renderScreen} from './utils.js';
-import introScreen from './intro.js';
+import getIntroScreen from './intro.js';
 
 const onToMainScreenButtonClick = (evt) => {
   evt.preventDefault();
-  renderScreen(introScreen);
+  renderScreen([getIntroScreen()]);
 };
 
 const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
