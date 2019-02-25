@@ -2,8 +2,9 @@ import {makeElementFromTemplate} from './utils.js';
 import {changeGameScreen} from './controls.js';
 import getStats from './stats.js';
 import getHeader from './header.js';
+import gameState from './game-data.js';
 
-const fillState = (state) => {
+const fillStateList = (state) => {
   let newArr = [];
 
   for (let i = 0; i < state.answers.length; i++) {
@@ -13,12 +14,17 @@ const fillState = (state) => {
   return newArr.join(``);
 };
 
-const getGameScreen = (question, gameState) => {
+const getGameScreen = (question, state) => {
+  const SINGLE_GAME_SCREEN = 1;
+  const DOUBLE_GAME_SCREEN = 2;
+  const TRIPLE_GAME_SCREEN = 3;
+
   let gameScreenTemplate;
+  let gameScreenType;
 
   const gameStatsTemplate = `
     <ul class="stats">
-      ${fillState(gameState)}
+      ${fillStateList(state)}
     </ul>
   `;
 
@@ -85,24 +91,29 @@ const getGameScreen = (question, gameState) => {
     ${gameStatsTemplate}
   `;
 
-  if (question.length === 3) {
+  if (question.length === TRIPLE_GAME_SCREEN) {
+    gameScreenType = `triple`;
     gameScreenTemplate = `
       <section class="game">
         ${threeImagesGameScreenTemplate}
       </section>
     `;
-  } else if (question.length === 2) {
+  } else if (question.length === DOUBLE_GAME_SCREEN) {
+    gameScreenType = `double`;
     gameScreenTemplate = `
       <section class="game">
         ${twoImagesGameScreenTemplate}
       </section>
     `;
-  } else {
+  } else if (question.length === SINGLE_GAME_SCREEN) {
+    gameScreenType = `single`;
     gameScreenTemplate = `
       <section class="game">
         ${oneImageGameScreenTemplate}
       </section>
     `;
+  } else {
+    throw new Error(`Некорректная длина массива вопроса`);
   }
 
   const gameScreen = makeElementFromTemplate(gameScreenTemplate);
@@ -112,7 +123,7 @@ const getGameScreen = (question, gameState) => {
   const radioInputsSecondQuestion = gameScreen.querySelectorAll(`input[name="question2"]`);
 
   const onGameContentFormInputsChange = () => {
-    changeGameScreen([getHeader(START_GAME_STATE, false), getStats()], [radioInputsFirstQuestion, radioInputsSecondQuestion]);
+    changeGameScreen([getHeader(gameState, false), getStats()], [radioInputsFirstQuestion, radioInputsSecondQuestion]);
 
   };
 
