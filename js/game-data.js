@@ -1,4 +1,4 @@
-const START_GAME_STATE = {
+let gameState = {
   level: 0,
   lives: 3,
   maxLives: 3,
@@ -6,4 +6,4 @@ const START_GAME_STATE = {
   answers: [`unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`]
 };
 
-export default START_GAME_STATE;
+export default gameState;

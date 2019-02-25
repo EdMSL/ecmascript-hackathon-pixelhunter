@@ -3,18 +3,18 @@ import {changeGameScreen} from './controls.js';
 import getStats from './stats.js';
 import getHeader from './header.js';
 
+const fillState = (state) => {
+  let newArr = [];
+
+  for (let i = 0; i < state.answers.length; i++) {
+    newArr.push(`<li class="stats__result stats__result--${state.answers[i]}"></li>`);
+  }
+
+  return newArr.join(``);
+};
+
 const getGameScreen = (question, gameState) => {
   let gameScreenTemplate;
-
-  const fillState = (state) => {
-    let newArr = [];
-
-    for (let i = 0; i < state.answers.length; i++) {
-      newArr.push(`<li class="stats__result stats__result--${state.answers[i]}"></li>`);
-    }
-
-    return newArr.join(``);
-  };
 
   const gameStatsTemplate = `
     <ul class="stats">
