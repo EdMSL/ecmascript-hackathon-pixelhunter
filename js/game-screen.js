@@ -1,8 +1,6 @@
 import {makeElementFromTemplate} from './utils.js';
 import {changeGameScreen} from './controls.js';
 import getStats from './stats.js';
-import START_GAME_STATE from './game-data.js';
-// import gameQuestions from './game-questions.js';
 import getHeader from './header.js';
 
 const getGameScreen = (question, gameState) => {

@@ -1,7 +1,7 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
 import getHeader from './header.js';
 import START_GAME_STATE from './game-data.js';
-import renderRulesScreen from './rules.js';
+import getRulesScreen from './rules.js';
 
 const getGreetingScreen = () => {
   const greetingScreen = makeElementFromTemplate(`
@@ -34,7 +34,7 @@ const getGreetingScreen = () => {
 
   const onGreetingButtonClick = (evt) => {
     evt.preventDefault();
-    renderScreen([getHeader(START_GAME_STATE, false), renderRulesScreen()]);
+    renderScreen([getHeader(START_GAME_STATE, false), getRulesScreen()]);
   };
 
   greetingButton.addEventListener(`click`, onGreetingButtonClick);

@@ -1,4 +1,4 @@
-import {makeElementFromTemplate} from './utils';
+import {makeElementFromTemplate} from './utils.js';
 import {onToMainScreenButtonClick} from './controls.js';
 
 const getHeader = (state, isGameScreenHeader) =>{

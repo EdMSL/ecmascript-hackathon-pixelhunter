@@ -4,7 +4,7 @@ import START_GAME_STATE from './game-data.js';
 import getGameScreen from './game-screen.js';
 import gameQuestions from './game-questions.js';
 
-const renderRulesScreen = () => {
+const getRulesScreen = () => {
   const NAME_MIN_LENGTH = 3;
 
   const rulesScreen = makeElementFromTemplate(`
@@ -49,4 +49,4 @@ const renderRulesScreen = () => {
   return rulesScreen;
 };
 
-export default renderRulesScreen;
+export default getRulesScreen;
