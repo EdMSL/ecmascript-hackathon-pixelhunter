@@ -3,8 +3,11 @@ import {changeGameScreen} from './controls.js';
 import getStatsScreen from './stats.js';
 import getHeader from './header.js';
 import gameState from './game-data.js';
+import GameQuestions from './game-questions.js';
 
-const fillStateList = (state) => {
+const TOTAL_QUESTIONS = 10;
+
+const fillAnswersList = (state) => {
   let newArr = [];
 
   for (let i = 0; i < state.answers.length; i++) {
@@ -14,17 +17,16 @@ const fillStateList = (state) => {
   return newArr.join(``);
 };
 
-const getGameScreen = (question, state) => {
+const getGameScreenElement = (question, state) => {
   const SINGLE_GAME_SCREEN = 1;
   const DOUBLE_GAME_SCREEN = 2;
   const TRIPLE_GAME_SCREEN = 3;
 
   let gameScreenTemplate;
-  let gameScreenType;
 
   const gameStatsTemplate = `
     <ul class="stats">
-      ${fillStateList(state)}
+      ${fillAnswersList(state)}
     </ul>
   `;
 
@@ -32,7 +34,7 @@ const getGameScreen = (question, state) => {
     <p class="game__task">Угадай, фото или рисунок?</p>
     <form class="game__content  game__content--wide">
       <div class="game__option">
-        <img src="http://placehold.it/705x455" alt="Option 1" width="705" height="455">
+        <img src="${question[0].img}" alt="Option 1" width="705" height="455">
         <label class="game__answer  game__answer--photo">
           <input class="visually-hidden" name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -50,7 +52,7 @@ const getGameScreen = (question, state) => {
     <p class="game__task">Угадайте для каждого изображения фото или рисунок?</p>
     <form class="game__content">
       <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 1" width="468" height="458">
+        <img src="${question[0].img}" alt="Option 1" width="468" height="458">
         <label class="game__answer game__answer--photo">
           <input class="visually-hidden" name="question1" type="radio" value="photo">
           <span>Фото</span>
@@ -61,7 +63,7 @@ const getGameScreen = (question, state) => {
         </label>
       </div>
       <div class="game__option">
-        <img src="http://placehold.it/468x458" alt="Option 2" width="468" height="458">
+        <img src="${question[1].img}" alt="Option 2" width="468" height="458">
         <label class="game__answer  game__answer--photo">
           <input class="visually-hidden" name="question2" type="radio" value="photo">
           <span>Фото</span>
@@ -92,21 +94,18 @@ const getGameScreen = (question, state) => {
   `;
 
   if (question.length === TRIPLE_GAME_SCREEN) {
-    gameScreenType = `triple`;
     gameScreenTemplate = `
       <section class="game">
         ${threeImagesGameScreenTemplate}
       </section>
     `;
   } else if (question.length === DOUBLE_GAME_SCREEN) {
-    gameScreenType = `double`;
     gameScreenTemplate = `
       <section class="game">
         ${twoImagesGameScreenTemplate}
       </section>
     `;
   } else if (question.length === SINGLE_GAME_SCREEN) {
-    gameScreenType = `single`;
     gameScreenTemplate = `
       <section class="game">
         ${oneImageGameScreenTemplate}
@@ -118,28 +117,45 @@ const getGameScreen = (question, state) => {
 
   const gameScreen = makeElementFromTemplate(gameScreenTemplate);
 
+  return gameScreen;
+};
+
+const getGameScreen = (question, state) => {
+  const gameScreen = getGameScreenElement(question, state);
+
   const gameContentForm = gameScreen.querySelector(`.game__content`);
 
-  let GameQuestions = gameContentForm.querySelectorAll(`.game__option`);
+  if (state.lives > 0 && state.level < TOTAL_QUESTIONS - 1) {
 
-  switch (gameScreenType) {
-    case `triple`:
-      gameContentForm.addEventListener(`click`, (evt) => {
-        const target = evt.target;
+    switch (question.length) {
+      case 3:
+        gameContentForm.addEventListener(`click`, (evt) => {
+          const target = evt.target;
 
-        if (target.tagName !== `IMG`) {
-          return;
-        }
+          if (target.tagName !== `IMG`) {
+            return;
+          }
 
-        renderScreen([getStatsScreen()]);
-      });
-      break;
-    case `double`:
-    case `single`:
-      gameContentForm.addEventListener(`change`, () => {
-        changeGameScreen([getHeader(gameState, false), getStatsScreen()], GameQuestions);
-      });
-      break;
+          renderScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)]);
+
+        });
+        break;
+      case 2:
+      case 1:
+        let QuestionInputsGroups = gameContentForm.querySelectorAll(`.game__option`);
+        gameContentForm.addEventListener(`change`, () => {
+          changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], QuestionInputsGroups);
+        });
+        break;
+    }
+    // gameState.level = gameState.level + 1;
+  } else {
+    gameContentForm.addEventListener(`change`, () => {
+      renderScreen([getStatsScreen()]);
+    });
+    gameContentForm.addEventListener(`click`, () => {
+      renderScreen([getStatsScreen()]);
+    });
   }
 
   return gameScreen;

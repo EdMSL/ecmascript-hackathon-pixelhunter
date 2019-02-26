@@ -34,7 +34,7 @@ const getRulesScreen = () => {
     if (rulesInput.value.length >= NAME_MIN_LENGTH) {
       rulesButton.disabled = ``;
     } else {
-      rulesButton.disabled = `true`;
+      rulesButton.disabled = true;
     }
   };
 
