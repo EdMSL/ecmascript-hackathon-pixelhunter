@@ -8,7 +8,13 @@ const onToMainScreenButtonClick = (evt) => {
 
 const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
 
-const isAllRadioGroupsChecked = (radioGroupsArr) => radioGroupsArr.every((radioGroup) => isRadioGroupChecked(radioGroup));
+const isAllRadioGroupsChecked = (questions) => {
+  let radioGroupsArr = [];
+
+  questions.forEach((question) => radioGroupsArr.push(question.querySelectorAll(`input[type="radio"]`)));
+
+  return radioGroupsArr.every((radioGroup) => isRadioGroupChecked(radioGroup));
+};
 
 const changeGameScreen = (screens, array) => {
   if (isAllRadioGroupsChecked(array)) {

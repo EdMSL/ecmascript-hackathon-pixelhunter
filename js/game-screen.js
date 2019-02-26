@@ -120,9 +120,11 @@ const getGameScreen = (question, state) => {
 
   const gameContentForm = gameScreen.querySelector(`.game__content`);
 
+  let GameQuestions = gameContentForm.querySelectorAll(`.game__option`);
+
   switch (gameScreenType) {
     case `triple`:
-      const onGameOptionImgClick = (evt) => {
+      gameContentForm.addEventListener(`click`, (evt) => {
         const target = evt.target;
 
         if (target.tagName !== `IMG`) {
@@ -130,29 +132,22 @@ const getGameScreen = (question, state) => {
         }
 
         renderScreen([getStatsScreen()]);
-      };
-
-      gameContentForm.addEventListener(`click`, onGameOptionImgClick);
+      });
       break;
     case `double`:
-      const radioInputsFirstQuestion = gameScreen.querySelectorAll(`input[name="question1"]`);
-      const radioInputsSecondQuestion = gameScreen.querySelectorAll(`input[name="question2"]`);
+      // const radioInputsFirstQuestion = gameScreen.querySelectorAll(`input[name="question1"]`);
+      // const radioInputsSecondQuestion = gameScreen.querySelectorAll(`input[name="question2"]`);
 
-      const onGameContentFormInputsChange = () => {
-        changeGameScreen([getHeader(gameState, false), getStatsScreen()], [radioInputsFirstQuestion, radioInputsSecondQuestion]);
-
-      };
-
-      gameContentForm.addEventListener(`change`, onGameContentFormInputsChange);
+      gameContentForm.addEventListener(`change`, () => {
+        changeGameScreen([getHeader(gameState, false), getStatsScreen()], GameQuestions);
+      });
       break;
     case `single`:
-      const radioInputsFirstQuestio = gameScreen.querySelectorAll(`input[name="question1"]`);
+      // const radioInputsFirstQuestio = gameScreen.querySelectorAll(`input[name="question1"]`);
 
-      const onGameContentFormInputsChang = () => {
-        changeGameScreen([getStatsScreen()], [radioInputsFirstQuestio]);
-      };
-
-      gameContentForm.addEventListener(`change`, onGameContentFormInputsChang);
+      gameContentForm.addEventListener(`change`, () => {
+        changeGameScreen([getHeader(gameState, false), getStatsScreen()], GameQuestions);
+      });
       break;
   }
 
