@@ -42,7 +42,6 @@ const onGameContentFormInputsChange = () => {
   changeGameScreen([gameThreeImgScreen], [radioInputsFirstQuestion]);
 };
 
-// toMainScreenButton.addEventListener(`click`, onToMainScreenButtonClick);
 gameContentForm.addEventListener(`change`, onGameContentFormInputsChange);
 
 export default gameOneImgScreen;

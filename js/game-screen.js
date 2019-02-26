@@ -1,6 +1,6 @@
-import {makeElementFromTemplate} from './utils.js';
+import {makeElementFromTemplate, renderScreen} from './utils.js';
 import {changeGameScreen} from './controls.js';
-import getStats from './stats.js';
+import getStatsScreen from './stats.js';
 import getHeader from './header.js';
 import gameState from './game-data.js';
 
@@ -119,15 +119,42 @@ const getGameScreen = (question, state) => {
   const gameScreen = makeElementFromTemplate(gameScreenTemplate);
 
   const gameContentForm = gameScreen.querySelector(`.game__content`);
-  const radioInputsFirstQuestion = gameScreen.querySelectorAll(`input[name="question1"]`);
-  const radioInputsSecondQuestion = gameScreen.querySelectorAll(`input[name="question2"]`);
 
-  const onGameContentFormInputsChange = () => {
-    changeGameScreen([getHeader(gameState, false), getStats()], [radioInputsFirstQuestion, radioInputsSecondQuestion]);
+  switch (gameScreenType) {
+    case `triple`:
+      const onGameOptionImgClick = (evt) => {
+        const target = evt.target;
 
-  };
+        if (target.tagName !== `IMG`) {
+          return;
+        }
 
-  gameContentForm.addEventListener(`change`, onGameContentFormInputsChange);
+        renderScreen([getStatsScreen()]);
+      };
+
+      gameContentForm.addEventListener(`click`, onGameOptionImgClick);
+      break;
+    case `double`:
+      const radioInputsFirstQuestion = gameScreen.querySelectorAll(`input[name="question1"]`);
+      const radioInputsSecondQuestion = gameScreen.querySelectorAll(`input[name="question2"]`);
+
+      const onGameContentFormInputsChange = () => {
+        changeGameScreen([getHeader(gameState, false), getStatsScreen()], [radioInputsFirstQuestion, radioInputsSecondQuestion]);
+
+      };
+
+      gameContentForm.addEventListener(`change`, onGameContentFormInputsChange);
+      break;
+    case `single`:
+      const radioInputsFirstQuestio = gameScreen.querySelectorAll(`input[name="question1"]`);
+
+      const onGameContentFormInputsChang = () => {
+        changeGameScreen([getStatsScreen()], [radioInputsFirstQuestio]);
+      };
+
+      gameContentForm.addEventListener(`change`, onGameContentFormInputsChang);
+      break;
+  }
 
   return gameScreen;
 };

@@ -1,9 +1,7 @@
 import {makeElementFromTemplate} from './utils.js';
-import {onToMainScreenButtonClick} from './controls.js';
 
-const getStats = () => {
+const getStatsScreen = () => {
   const statsScreen = makeElementFromTemplate(`
-    
     <h2 class="result__title">Победа!</h2>
     <table class="result__table">
       <tr>
@@ -105,11 +103,7 @@ const getStats = () => {
     </section>
   `);
 
-  const toMainScreenButton = statsScreen.querySelector(`.back`);
-
-  toMainScreenButton.addEventListener(`click`, onToMainScreenButtonClick);
-
   return statsScreen;
 };
 
-export default getStats;
+export default getStatsScreen;
