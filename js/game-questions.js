@@ -4,10 +4,6 @@ const gameQuestions = [
       img: `https://k42.kn3.net/CF42609C8.jpg`,
       type: `paint`
     },
-    {
-      img: `https://k42.kn3.net/D2F0370D6.jpg`,
-      type: `paint`
-    }
   ],
 
   [

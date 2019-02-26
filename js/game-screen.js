@@ -135,16 +135,7 @@ const getGameScreen = (question, state) => {
       });
       break;
     case `double`:
-      // const radioInputsFirstQuestion = gameScreen.querySelectorAll(`input[name="question1"]`);
-      // const radioInputsSecondQuestion = gameScreen.querySelectorAll(`input[name="question2"]`);
-
-      gameContentForm.addEventListener(`change`, () => {
-        changeGameScreen([getHeader(gameState, false), getStatsScreen()], GameQuestions);
-      });
-      break;
     case `single`:
-      // const radioInputsFirstQuestio = gameScreen.querySelectorAll(`input[name="question1"]`);
-
       gameContentForm.addEventListener(`change`, () => {
         changeGameScreen([getHeader(gameState, false), getStatsScreen()], GameQuestions);
       });
