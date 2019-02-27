@@ -108,38 +108,39 @@ const getGameScreen = (question, state) => {
 
   const gameContentForm = gameScreen.querySelector(`.game__content`);
 
-  if (state.lives > 0 && state.level < TOTAL_QUESTIONS - 1) {
+  // if (state.lives > 0 && state.level < TOTAL_QUESTIONS - 1) {
 
-    switch (question.length) {
-      case 3:
-        gameContentForm.addEventListener(`click`, (evt) => {
-          const target = evt.target;
+  switch (question.length) {
+    case 3:
+      gameContentForm.addEventListener(`click`, (evt) => {
+        const target = evt.target;
 
-          if (target.tagName !== `IMG`) {
-            return;
-          }
+        if (target.tagName !== `IMG`) {
+          return;
+        }
 
-          renderScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)]);
+        const clickedImgIndex = target.alt[target.alt.length - 1];
 
-        });
-        break;
-      case 2:
-      case 1:
-        let QuestionInputsGroups = gameContentForm.querySelectorAll(`.game__option`);
-        gameContentForm.addEventListener(`change`, () => {
-          changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], QuestionInputsGroups);
-        });
-        break;
-    }
-    gameState.level = gameState.level + 1;
-  } else {
-    gameContentForm.addEventListener(`change`, () => {
-      renderScreen([getStatsScreen()]);
-    });
-    gameContentForm.addEventListener(`click`, () => {
-      renderScreen([getStatsScreen()]);
-    });
+        changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], clickedImgIndex);
+
+      });
+      break;
+    case 2:
+    case 1:
+      let QuestionInputsGroups = gameContentForm.querySelectorAll(`.game__option`);
+      gameContentForm.addEventListener(`change`, () => {
+        changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], QuestionInputsGroups);
+      });
+      break;
   }
+  // } else {
+  //   gameContentForm.addEventListener(`change`, () => {
+  //     renderScreen([getStatsScreen()]);
+  //   });
+  //   gameContentForm.addEventListener(`click`, () => {
+  //     renderScreen([getStatsScreen()]);
+  //   });
+  // }
 
   return gameScreen;
 };
