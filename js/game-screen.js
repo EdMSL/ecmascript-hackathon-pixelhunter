@@ -4,17 +4,15 @@ import getStatsScreen from './stats.js';
 import getHeader from './header.js';
 import gameState from './game-data.js';
 import GameQuestions from './game-questions.js';
-import {getDefaultGameScreenTemplate, getThripleGameScreenTemplate} from './game-screen-template.js';
+import getGameScreenTemplate from './game-screen-template.js';
+
+const SINGLE_GAME_SCREEN = 1;
+const DOUBLE_GAME_SCREEN = 2;
+const TRIPLE_GAME_SCREEN = 3;
 
 const getGameScreen = (question, state) => {
-  // const SINGLE_GAME_SCREEN = 1;
-  // const DOUBLE_GAME_SCREEN = 2;
-  // const TRIPLE_GAME_SCREEN = 3;
-
   let gameScreen;
-
   let gameScreenTemplate;
-
   let gameContentForm;
 
   const changeCurScreen = (formElement) => {
@@ -24,14 +22,13 @@ const getGameScreen = (question, state) => {
     });
   };
 
-
   // if (state.lives > 0 && state.level < TOTAL_QUESTIONS - 1) {
 
   switch (question.length) {
-    case 3:
+    case TRIPLE_GAME_SCREEN:
       gameScreenTemplate = `
         <section class="game">
-          ${getThripleGameScreenTemplate(question, state)}
+          ${getGameScreenTemplate(question, state)}
         </section>
       `;
       gameScreen = makeElementFromTemplate(gameScreenTemplate);
@@ -49,26 +46,29 @@ const getGameScreen = (question, state) => {
 
       });
       break;
-    case 2:
+
+    case DOUBLE_GAME_SCREEN:
       gameScreenTemplate = `
         <section class="game">
-          ${getDefaultGameScreenTemplate(question, state)}
+          ${getGameScreenTemplate(question, state)}
         </section>
       `;
       gameScreen = makeElementFromTemplate(gameScreenTemplate);
       gameContentForm = gameScreen.querySelector(`.game__content`);
       changeCurScreen(gameContentForm);
       break;
-    case 1:
+
+    case SINGLE_GAME_SCREEN:
       gameScreenTemplate = `
         <section class="game">
-          ${getDefaultGameScreenTemplate(question, state)}
+          ${getGameScreenTemplate(question, state)}
         </section>
       `;
       gameScreen = makeElementFromTemplate(gameScreenTemplate);
       gameContentForm = gameScreen.querySelector(`.game__content`);
       changeCurScreen(gameContentForm);
       break;
+
     default: {
       throw new Error(`Некорректная длина массива вопроса`);
     }

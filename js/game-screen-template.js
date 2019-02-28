@@ -24,7 +24,9 @@ const setTemplateParameterValue = (question, parameterValue1, parameterValue2) =
   return parameterValue2;
 };
 
-const getDefaultGameScreenTemplate = (question, state) => `
+const getGameScreenTemplate = (question, state) => {
+  if (question.length === 1 || question.length === 2) {
+    return `
     ${setTemplateParameterValue(question, SINGLE_SCREEN_TITLE, DOUBLE_SCREEN_TITLE)}
     <form class="game__content  game__content${setTemplateParameterValue(question, SINGLE_SCREEN_MODIFICATOR, NO_MODIFICATOR)}">
       ${question.map((element, index) => `
@@ -43,20 +45,21 @@ const getDefaultGameScreenTemplate = (question, state) => `
     </form>
     ${gameStatsTemplate(state)}
   `;
-
-const getThripleGameScreenTemplate = (question, state) => `
-  <p class="game__task">Найдите рисунок среди изображений</p>
-  <form class="game__content  game__content--triple">
-    ${question.map((element, index) => `
-      <div class="game__option">
-        <img src="${element.img}" alt="Option ${index + 1}" width="304" height="455">
-      </div>
-    `).join(``)}
-  </form>
-  ${gameStatsTemplate(state)}
-`;
-
-export {
-  getDefaultGameScreenTemplate,
-  getThripleGameScreenTemplate
+  } else if (question.length === 3) {
+    return `
+    <p class="game__task">Найдите рисунок среди изображений</p>
+    <form class="game__content  game__content--triple">
+      ${question.map((element, index) => `
+        <div class="game__option">
+          <img src="${element.img}" alt="Option ${index + 1}" width="304" height="455">
+        </div>
+      `).join(``)}
+    </form>
+    ${gameStatsTemplate(state)}
+  `;
+  } else {
+    throw new Error(`Некорректная длина массива вопроса`);
+  }
 };
+
+export default getGameScreenTemplate;
