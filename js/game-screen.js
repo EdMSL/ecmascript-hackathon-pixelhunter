@@ -17,7 +17,7 @@ const fillAnswersList = (state) => {
   return newArr.join(``);
 };
 
-const getGameScreenElement = (question, state) => {
+const getGameScreen = (question, state) => {
   const SINGLE_GAME_SCREEN = 1;
   const DOUBLE_GAME_SCREEN = 2;
   const TRIPLE_GAME_SCREEN = 3;
@@ -76,42 +76,51 @@ const getGameScreenElement = (question, state) => {
     ${gameStatsTemplate}
   `;
 
-  if (question.length === TRIPLE_GAME_SCREEN) {
-    gameScreenTemplate = `
-      <section class="game">
-        ${getThreeImagesGameScreenTemplate()}
-      </section>
-    `;
-  } else if (question.length === DOUBLE_GAME_SCREEN) {
-    gameScreenTemplate = `
-      <section class="game">
-        ${getDefaultGameScreenTemplate(DOUBLE_SCREEN_TITLE, STANDART_WIDTH, STANDART_HEIGHT)}
-      </section>
-    `;
-  } else if (question.length === SINGLE_GAME_SCREEN) {
-    gameScreenTemplate = `
-      <section class="game">
-        ${getDefaultGameScreenTemplate(SINGLE_SCREEN_TITLE, WIDE_WIDTH, WIDE_HEIGHT, true)}
-      </section>
-    `;
-  } else {
-    throw new Error(`Некорректная длина массива вопроса`);
-  }
+  // if (question.length === TRIPLE_GAME_SCREEN) {
+  //   gameScreenTemplate = `
+  //     <section class="game">
+  //       ${getThreeImagesGameScreenTemplate()}
+  //     </section>
+  //   `;
+  // } else if (question.length === DOUBLE_GAME_SCREEN) {
+  //   gameScreenTemplate = `
+  //     <section class="game">
+  //       ${getDefaultGameScreenTemplate(DOUBLE_SCREEN_TITLE, STANDART_WIDTH, STANDART_HEIGHT)}
+  //     </section>
+  //   `;
+  // } else if (question.length === SINGLE_GAME_SCREEN) {
+  //   gameScreenTemplate = `
+  //     <section class="game">
+  //       ${getDefaultGameScreenTemplate(SINGLE_SCREEN_TITLE, WIDE_WIDTH, WIDE_HEIGHT, true)}
+  //     </section>
+  //   `;
+  // } else {
+  //   throw new Error(`Некорректная длина массива вопроса`);
+  // }
 
-  const gameScreen = makeElementFromTemplate(gameScreenTemplate);
+  let gameScreen;
 
-  return gameScreen;
-};
+  let gameContentForm;
 
-const getGameScreen = (question, state) => {
-  const gameScreen = getGameScreenElement(question, state);
+  const changeCurScreen = (formElement) => {
+    let QuestionInputsGroups = formElement.querySelectorAll(`.game__option`);
+    gameContentForm.addEventListener(`change`, () => {
+      changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], QuestionInputsGroups);
+    });
+  };
 
-  const gameContentForm = gameScreen.querySelector(`.game__content`);
 
   // if (state.lives > 0 && state.level < TOTAL_QUESTIONS - 1) {
 
   switch (question.length) {
     case 3:
+      gameScreenTemplate = `
+        <section class="game">
+          ${getThreeImagesGameScreenTemplate()}
+        </section>
+      `;
+      gameScreen = makeElementFromTemplate(gameScreenTemplate);
+      gameContentForm = gameScreen.querySelector(`.game__content`);
       gameContentForm.addEventListener(`click`, (evt) => {
         const target = evt.target;
 
@@ -126,12 +135,32 @@ const getGameScreen = (question, state) => {
       });
       break;
     case 2:
-    case 1:
-      let QuestionInputsGroups = gameContentForm.querySelectorAll(`.game__option`);
-      gameContentForm.addEventListener(`change`, () => {
-        changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], QuestionInputsGroups);
-      });
+      gameScreenTemplate = `
+        <section class="game">
+          ${getDefaultGameScreenTemplate(DOUBLE_SCREEN_TITLE, STANDART_WIDTH, STANDART_HEIGHT)}
+        </section>
+      `;
+      gameScreen = makeElementFromTemplate(gameScreenTemplate);
+      gameContentForm = gameScreen.querySelector(`.game__content`);
+      changeCurScreen(gameContentForm);
       break;
+    case 1:
+      gameScreenTemplate = `
+        <section class="game">
+          ${getDefaultGameScreenTemplate(SINGLE_SCREEN_TITLE, WIDE_WIDTH, WIDE_HEIGHT, true)}
+        </section>
+      `;
+      gameScreen = makeElementFromTemplate(gameScreenTemplate);
+      gameContentForm = gameScreen.querySelector(`.game__content`);
+      changeCurScreen(gameContentForm);
+      // let QuestionInputsGroups = gameContentForm.querySelectorAll(`.game__option`);
+      // gameContentForm.addEventListener(`change`, () => {
+      //   changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], QuestionInputsGroups);
+      // });
+      break;
+    default: {
+      throw new Error(`Некорректная длина массива вопроса`);
+    }
   }
   // } else {
   //   gameContentForm.addEventListener(`change`, () => {

@@ -26,7 +26,7 @@ const checkRadioAnswers = (gameQuestion, radioGroups) => {
   })) {
     gameState.level += 1;
   } else {
-    gameState.lives -= 1;
+    // gameState.lives -= 1;
     gameState.level += 1;
   }
 };
@@ -35,12 +35,14 @@ const checkClickAnswer = (gameQuestion, answer) => {
   if (gameQuestion[answer - 1].type === `paint`) {
     gameState.level += 1;
   } else {
-    gameState.lives -= 1;
+    // gameState.lives -= 1;
     gameState.level += 1;
   }
 };
 
 const changeGameScreen = (screens, gameQuestion, questionInputs) => {
+  console.log(gameState.level)
+  console.log(gameState.lives)
   if (gameState.lives > 0 && gameState.level < 9) {
     if (gameQuestion.length === 2 || gameQuestion.length === 1) {
       let radioGroupsArr = [];
@@ -66,8 +68,7 @@ const changeGameScreen = (screens, gameQuestion, questionInputs) => {
   } else {
     renderScreen([getStatsScreen()]);
   }
-  console.log(gameState.level)
-  console.log(gameState.lives)
+
 };
 
 export {
