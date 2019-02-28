@@ -32,7 +32,7 @@ const checkRadioAnswers = (gameQuestion, radioGroups) => {
 };
 
 const checkClickAnswer = (gameQuestion, answer) => {
-  if (gameQuestion[answer - 1].type === `paint`) {
+  if (gameQuestion[answer].type === `paint`) {
     gameState.level += 1;
   } else {
     gameState.lives -= 1;

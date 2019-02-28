@@ -11,28 +11,13 @@ const DOUBLE_GAME_SCREEN = 2;
 const TRIPLE_GAME_SCREEN = 3;
 
 const getGameScreen = (question, state) => {
-  let gameScreen;
-  let gameScreenTemplate;
-  let gameContentForm;
-
-  const changeCurScreen = (formElement) => {
-    let QuestionInputsGroups = formElement.querySelectorAll(`.game__option`);
-    gameContentForm.addEventListener(`change`, () => {
-      changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], QuestionInputsGroups);
-    });
-  };
-
   // if (state.lives > 0 && state.level < TOTAL_QUESTIONS - 1) {
+  const gameScreen = makeElementFromTemplate(getGameScreenTemplate(question, state));
+  const gameContentForm = gameScreen.querySelector(`.game__content`);
+
 
   switch (question.length) {
     case TRIPLE_GAME_SCREEN:
-      gameScreenTemplate = `
-        <section class="game">
-          ${getGameScreenTemplate(question, state)}
-        </section>
-      `;
-      gameScreen = makeElementFromTemplate(gameScreenTemplate);
-      gameContentForm = gameScreen.querySelector(`.game__content`);
       gameContentForm.addEventListener(`click`, (evt) => {
         const target = evt.target;
 
@@ -40,7 +25,8 @@ const getGameScreen = (question, state) => {
           return;
         }
 
-        const clickedImgIndex = target.alt[target.alt.length - 1];
+        const images = gameContentForm.querySelectorAll(`img`);
+        const clickedImgIndex = [...images].indexOf(target);
 
         changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], clickedImgIndex);
 
@@ -48,25 +34,12 @@ const getGameScreen = (question, state) => {
       break;
 
     case DOUBLE_GAME_SCREEN:
-      gameScreenTemplate = `
-        <section class="game">
-          ${getGameScreenTemplate(question, state)}
-        </section>
-      `;
-      gameScreen = makeElementFromTemplate(gameScreenTemplate);
-      gameContentForm = gameScreen.querySelector(`.game__content`);
-      changeCurScreen(gameContentForm);
-      break;
-
     case SINGLE_GAME_SCREEN:
-      gameScreenTemplate = `
-        <section class="game">
-          ${getGameScreenTemplate(question, state)}
-        </section>
-      `;
-      gameScreen = makeElementFromTemplate(gameScreenTemplate);
-      gameContentForm = gameScreen.querySelector(`.game__content`);
-      changeCurScreen(gameContentForm);
+      let QuestionInputsGroups = gameContentForm.querySelectorAll(`.game__option`);
+
+      gameContentForm.addEventListener(`change`, () => {
+        changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], QuestionInputsGroups);
+      });
       break;
 
     default: {
@@ -74,12 +47,7 @@ const getGameScreen = (question, state) => {
     }
   }
   // } else {
-  //   gameContentForm.addEventListener(`change`, () => {
-  //     renderScreen([getStatsScreen()]);
-  //   });
-  //   gameContentForm.addEventListener(`click`, () => {
-  //     renderScreen([getStatsScreen()]);
-  //   });
+  //   renderScreen([getStatsScreen()]);
   // }
 
   return gameScreen;
