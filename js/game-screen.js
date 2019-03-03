@@ -1,8 +1,7 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
-import {changeGameScreen} from './controls.js';
+import {isAllRadioGroupsChecked, checkForCorrect} from './controls.js';
 import getStatsScreen from './stats.js';
 import getHeader from './header.js';
-import gameState from './game-data.js';
 import GameQuestions from './game-questions.js';
 import getGameScreenTemplate from './game-screen-template.js';
 
@@ -10,11 +9,18 @@ const SINGLE_GAME_SCREEN = 1;
 const DOUBLE_GAME_SCREEN = 2;
 const TRIPLE_GAME_SCREEN = 3;
 
-const getGameScreen = (question, state) => {
-  // if (state.lives > 0 && state.level < TOTAL_QUESTIONS - 1) {
+const getNextGameScreen = (state, question, checkedItems) => {
+  if (checkForCorrect(question, checkedItems)) {
+    renderGameScreen(Object.assign({}, state, {level: state.level + 1}));
+  } else {
+    renderGameScreen(Object.assign({}, state, {level: state.level + 1, lives: state.lives - 1}));
+  }
+};
+
+const getGameScreen = (state) => {
+  const question = GameQuestions[state.level];
   const gameScreen = makeElementFromTemplate(getGameScreenTemplate(question, state));
   const gameContentForm = gameScreen.querySelector(`.game__content`);
-
 
   switch (question.length) {
     case TRIPLE_GAME_SCREEN:
@@ -28,17 +34,23 @@ const getGameScreen = (question, state) => {
         const images = gameContentForm.querySelectorAll(`img`);
         const clickedImgIndex = [...images].indexOf(target);
 
-        changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], clickedImgIndex);
-
+        getNextGameScreen(state, question, clickedImgIndex);
       });
       break;
 
     case DOUBLE_GAME_SCREEN:
     case SINGLE_GAME_SCREEN:
       let QuestionInputsGroups = gameContentForm.querySelectorAll(`.game__option`);
+      let radioGroupsArr = [];
+
+      QuestionInputsGroups.forEach((inputsGroup) => radioGroupsArr.push(inputsGroup.querySelectorAll(`input[type="radio"]`)));
 
       gameContentForm.addEventListener(`change`, () => {
-        changeGameScreen([getHeader(gameState, true), getGameScreen(GameQuestions[gameState.level], gameState)], GameQuestions[gameState.level], QuestionInputsGroups);
+        if (isAllRadioGroupsChecked(radioGroupsArr)) {
+          getNextGameScreen(state, question, radioGroupsArr);
+        } else {
+          return;
+        }
       });
       break;
 
@@ -46,11 +58,16 @@ const getGameScreen = (question, state) => {
       throw new Error(`Некорректная длина массива вопроса`);
     }
   }
-  // } else {
-  //   renderScreen([getStatsScreen()]);
-  // }
 
   return gameScreen;
 };
 
-export default getGameScreen;
+const renderGameScreen = (state) => {
+  if (state.lives > 0 && state.level <= GameQuestions.length - 1) {
+    renderScreen([getHeader(state, true), getGameScreen(state)]);
+  } else {
+    renderScreen([getStatsScreen()]);
+  }
+};
+
+export default renderGameScreen;
