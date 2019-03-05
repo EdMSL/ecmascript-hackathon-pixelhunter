@@ -64,7 +64,7 @@ const getGameScreen = (state) => {
 
 const renderGameScreen = (state) => {
   if (state.lives > 0 && state.level <= GameQuestions.length - 1) {
-    renderScreen([getHeader(state, true), getGameScreen(state)]);
+    renderScreen([getHeader(state), getGameScreen(state)]);
   } else {
     renderScreen([getStatsScreen(state)]);
   }
