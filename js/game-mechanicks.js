@@ -4,6 +4,7 @@ const PointsForGameStage = {
   CORRECT: 100,
   FAST: 150,
   SLOW: 50,
+  UNKNOWN: 0,
   LIVE: 50,
 };
 

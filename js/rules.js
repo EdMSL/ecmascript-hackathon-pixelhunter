@@ -1,6 +1,6 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
 import getHeader from './header.js';
-import GAME_STATE from './game-data.js';
+import {GAME_STATE} from './game-data.js';
 import getGameScreen from './game-screen.js';
 import GameQuestions from './game-questions.js';
 import renderGameScreen from './game-screen.js';

@@ -19,12 +19,7 @@ const NARROW_HEIGHT = 455;
 const STANDART_WIDTH = 468;
 const STANDART_HEIGHT = 458;
 
-const setTemplateParameterValue = (question, parameterValue1, parameterValue2) => {
-  if (question.length === 1) {
-    return parameterValue1;
-  }
-  return parameterValue2;
-};
+const setTemplateParameterValue = (question, parameterValue1, parameterValue2) => question.length === 1 ? parameterValue1 : parameterValue2;
 
 const getGameScreenTemplate = (question, state) => {
   if (question.length === SINGLE_GAME_SCREEN || question.length === DOUBLE_GAME_SCREEN) {

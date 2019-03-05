@@ -1,5 +1,5 @@
 import {assert} from 'chai';
-import START_GAME_STATE from './game-data.JS';
+import {GAME_STATE} from './game-data.js';
 import {getScore, deleteLive, changeLevel} from './game-mechanicks.js';
 
 const notAllAnswers = [`normal`, `normal`, `normal`, `normal`, `normal`, `normal`, `normal`, `normal`, `normal`];
@@ -30,17 +30,17 @@ describe(`Подсчет очков`, () => {
 
 describe(`Изменение кол-ва жизней`, () => {
   it(`Вернет корректное количество жизней`, () => {
-    assert.equal(deleteLive(START_GAME_STATE.lives), 1);
-    assert.equal(deleteLive(START_GAME_STATE.lives), 1);
+    assert.equal(deleteLive(GAME_STATE.lives), 1);
+    assert.equal(deleteLive(GAME_STATE.lives), 1);
   });
 });
 
 describe(`Изменение уровня игры`, () => {
   it(`Вернет корректный уровень`, () => {
-    assert.equal(changeLevel(START_GAME_STATE, 2).level, 2);
+    assert.equal(changeLevel(GAME_STATE, 2).level, 2);
   });
 
   it(`Вернет ошибку, так как получено отрицательное число`, () => {
-    assert.throws(() => changeLevel(START_GAME_STATE, -1).level, /Значение должно быть больше 0/);
+    assert.throws(() => changeLevel(GAME_STATE, -1).level, /Значение должно быть больше 0/);
   });
 });

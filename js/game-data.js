@@ -6,4 +6,16 @@ let GAME_STATE = {
   answers: [`unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`]
 };
 
-export default GAME_STATE;
+const PointsForGameStage = {
+  CORRECT: 100,
+  FAST: 50,
+  SLOW: -50,
+  UNKNOWN: 0,
+  WRONG: 0,
+  LIVE: 50,
+};
+
+export {
+  GAME_STATE,
+  PointsForGameStage
+};
