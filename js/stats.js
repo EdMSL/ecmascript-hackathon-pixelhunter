@@ -1,24 +1,14 @@
 import {makeElementFromTemplate} from './utils.js';
+import getAnswersListTemplate from './answers-list.js';
 
-const getStatsScreen = () => {
+const getStatsScreen = (state) => {
   const statsScreen = makeElementFromTemplate(`
     <h2 class="result__title">Победа!</h2>
     <table class="result__table">
       <tr>
         <td class="result__number">1.</td>
         <td colspan="2">
-          <ul class="stats">
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--correct"></li>
-            <li class="stats__result stats__result--wrong"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--slow"></li>
-            <li class="stats__result stats__result--unknown"></li>
-            <li class="stats__result stats__result--fast"></li>
-            <li class="stats__result stats__result--unknown"></li>
-          </ul>
+          ${getAnswersListTemplate(state)}
         </td>
         <td class="result__points">× 100</td>
         <td class="result__total">900</td>
@@ -48,7 +38,13 @@ const getStatsScreen = () => {
         <td colspan="5" class="result__total  result__total--final">950</td>
       </tr>
     </table>
-    <table class="result__table">
+    </section>
+  `);
+
+  return statsScreen;
+};
+
+{/* <table class="result__table">
       <tr>
         <td class="result__number">2.</td>
         <td>
@@ -99,11 +95,6 @@ const getStatsScreen = () => {
       <tr>
         <td colspan="5" class="result__total  result__total--final">950</td>
       </tr>
-    </table>
-    </section>
-  `);
-
-  return statsScreen;
-};
+    </table> */}
 
 export default getStatsScreen;

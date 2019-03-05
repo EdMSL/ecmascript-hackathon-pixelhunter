@@ -1,6 +1,8 @@
 import {renderScreen} from './utils.js';
 import getIntroScreen from './intro.js';
 
+const TRIPLE_SCREEN_CORRECT_TYPE = `paint`;
+
 const onToMainScreenButtonClick = (evt) => {
   evt.preventDefault();
   renderScreen([getIntroScreen()]);
@@ -24,7 +26,7 @@ const checkRadioAnswers = (gameQuestion, radioGroups) => {
   });
 };
 
-const checkClickAnswer = (gameQuestion, answer) => gameQuestion[answer].type === `paint`;
+const checkClickAnswer = (gameQuestion, answer) => gameQuestion[answer].type === TRIPLE_SCREEN_CORRECT_TYPE;
 
 const checkForCorrect = (question, checkedItems) => {
   if (question.length === 2 || question.length === 1) {
@@ -36,8 +38,23 @@ const checkForCorrect = (question, checkedItems) => {
   }
 };
 
+const addAnswer = (state, newAnswer) => {
+  state.answers[state.level] = newAnswer;
+
+  return state.answers;
+};
+
+const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1});
+
+const deleteLive = (state) => Object.assign({}, state, {lives: state.lives - 1});
+
+const changeAnswers = (state, newAnswer) => Object.assign({}, state, {answers: addAnswer(state, newAnswer)});
+
 export {
   onToMainScreenButtonClick,
   isAllRadioGroupsChecked,
-  checkForCorrect
+  checkForCorrect,
+  setNextLevel,
+  deleteLive,
+  changeAnswers
 };

@@ -1,3 +1,5 @@
+import getAnswersListTemplate from './answers-list.js';
+
 const SINGLE_GAME_SCREEN = 1;
 const DOUBLE_GAME_SCREEN = 2;
 const TRIPLE_GAME_SCREEN = 3;
@@ -16,14 +18,6 @@ const NARROW_WIDTH = 304;
 const NARROW_HEIGHT = 455;
 const STANDART_WIDTH = 468;
 const STANDART_HEIGHT = 458;
-
-const fillAnswersList = (state) => state.answers.map((element) => `<li class="stats__result stats__result--${element}"></li>`).join(``);
-
-const gameStatsTemplate = (state) => `
-  <ul class="stats">
-    ${fillAnswersList(state)}
-  </ul>
-`;
 
 const setTemplateParameterValue = (question, parameterValue1, parameterValue2) => {
   if (question.length === 1) {
@@ -52,7 +46,7 @@ const getGameScreenTemplate = (question, state) => {
           </div>
         `).join(``)}
       </form>
-      ${gameStatsTemplate(state)}
+      ${getAnswersListTemplate(state)}
     </section>
   `;
   } else if (question.length === TRIPLE_GAME_SCREEN) {
@@ -66,7 +60,7 @@ const getGameScreenTemplate = (question, state) => {
           </div>
         `).join(``)}
       </form>
-      ${gameStatsTemplate(state)}
+      ${getAnswersListTemplate(state)}
     </section>
   `;
   } else {

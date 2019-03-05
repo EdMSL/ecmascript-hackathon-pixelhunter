@@ -1,5 +1,5 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
-import {isAllRadioGroupsChecked, checkForCorrect} from './controls.js';
+import {isAllRadioGroupsChecked, checkForCorrect, setNextLevel, deleteLive, changeAnswers} from './controls.js';
 import getStatsScreen from './stats.js';
 import getHeader from './header.js';
 import GameQuestions from './game-questions.js';
@@ -11,9 +11,9 @@ const TRIPLE_GAME_SCREEN = 3;
 
 const getNextGameScreen = (state, question, checkedItems) => {
   if (checkForCorrect(question, checkedItems)) {
-    renderGameScreen(Object.assign({}, state, {level: state.level + 1}));
+    renderGameScreen(setNextLevel(changeAnswers(state, `correct`)));
   } else {
-    renderGameScreen(Object.assign({}, state, {level: state.level + 1, lives: state.lives - 1}));
+    renderGameScreen(setNextLevel(deleteLive(changeAnswers(state, `wrong`))));
   }
 };
 
@@ -66,7 +66,7 @@ const renderGameScreen = (state) => {
   if (state.lives > 0 && state.level <= GameQuestions.length - 1) {
     renderScreen([getHeader(state, true), getGameScreen(state)]);
   } else {
-    renderScreen([getStatsScreen()]);
+    renderScreen([getStatsScreen(state)]);
   }
 };
 
