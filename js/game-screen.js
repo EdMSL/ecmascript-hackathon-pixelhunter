@@ -4,6 +4,7 @@ import getStatsScreen from './stats.js';
 import getHeader from './header.js';
 import GameQuestions from './game-questions.js';
 import getGameScreenTemplate from './game-screen-template.js';
+import {AnswerTypes} from './game-data.js';
 
 const SINGLE_GAME_SCREEN = 1;
 const DOUBLE_GAME_SCREEN = 2;
@@ -11,9 +12,9 @@ const TRIPLE_GAME_SCREEN = 3;
 
 const getNextGameScreen = (state, question, checkedItems) => {
   if (checkForCorrect(question, checkedItems)) {
-    renderGameScreen(setNextLevel(changeAnswers(state, `correct`)));
+    renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.CORRECT)));
   } else {
-    renderGameScreen(setNextLevel(deleteLive(changeAnswers(state, `wrong`))));
+    renderGameScreen(setNextLevel(deleteLive(changeAnswers(state, AnswerTypes.WRONG))));
   }
 };
 

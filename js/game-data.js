@@ -15,7 +15,15 @@ const PointsForGameStage = {
   LIVE: 50,
 };
 
+const AnswerTypes = {
+  CORRECT: `correct`,
+  FAST: `fast`,
+  SLOW: `slow`,
+  WRONG: `wrong`,
+};
+
 export {
   GAME_STATE,
-  PointsForGameStage
+  PointsForGameStage,
+  AnswerTypes
 };
