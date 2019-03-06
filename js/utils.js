@@ -11,9 +11,11 @@ const clearScreen = () => {
   main.innerHTML = ``;
 };
 
-const renderScreen = (elem) => {
+const renderScreen = (elements) => {
   clearScreen();
-  main.appendChild(elem);
+  elements.forEach((template) => {
+    main.appendChild(template);
+  });
 };
 
 export {

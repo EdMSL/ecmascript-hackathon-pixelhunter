@@ -1,9 +1,10 @@
 const TOTAL_QUESTIONS = 10;
 
 const PointsForGameStage = {
-  NORMAL: 100,
+  CORRECT: 100,
   FAST: 150,
   SLOW: 50,
+  UNKNOWN: 0,
   LIVE: 50,
 };
 

@@ -1,7 +1,29 @@
-const START_GAME_STATE = {
+let GAME_STATE = {
   level: 0,
-  lives: 2,
+  lives: 3,
+  maxLives: 3,
   time: 30,
+  answers: [`unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`]
 };
 
-export default START_GAME_STATE;
+const PointsForGameStage = {
+  CORRECT: 100,
+  FAST: 50,
+  SLOW: -50,
+  UNKNOWN: 0,
+  WRONG: 0,
+  LIVE: 50,
+};
+
+const AnswerTypes = {
+  CORRECT: `correct`,
+  FAST: `fast`,
+  SLOW: `slow`,
+  WRONG: `wrong`,
+};
+
+export {
+  GAME_STATE,
+  PointsForGameStage,
+  AnswerTypes
+};
