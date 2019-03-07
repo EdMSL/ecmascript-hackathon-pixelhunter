@@ -1,12 +1,5 @@
 const getAspectRatio = (width, height) => (width > height) ? width / height : height / width;
 
-const getBiggestSide = (image) => {
-  if (image.width > image.height || image.width === image.height) {
-    return image.width;
-  }
-  return image.height;
-};
-
 const isWidthBiggest = (image) => {
   if (image.width > image.height) {
     return true;
@@ -25,39 +18,13 @@ const resize = (frame, image) => {
   const frameWidthBiggest = isWidthBiggest(frame);
   const imageWidthBiggest = isWidthBiggest(image);
 
-  if (frameWidthBiggest === -1) {
-    if (imageWidthBiggest === -1) {
-      newImageSize.width = frame.width;
-      newImageSize.height = frame.height;
-    } else if (imageWidthBiggest) {
-      newImageSize.width = frame.width;
-      newImageSize.height = Math.floor(frame.width / imageAspectRatio);
-    } else {
-      newImageSize.width = Math.floor(frame.height / imageAspectRatio);
-      newImageSize.height = frame.height;
-    }
-  } else if (frameWidthBiggest) {
-    if (imageWidthBiggest === -1) {
-      newImageSize.width = frame.height;
-      newImageSize.height = frame.height;
-    } else if (imageWidthBiggest) {
-      newImageSize.width = frame.width;
-      newImageSize.height = Math.floor(frame.width / imageAspectRatio);
-    } else {
-      newImageSize.width = Math.floor(frame.height / imageAspectRatio);
-      newImageSize.height = frame.height;
-    }
+  if (frameWidthBiggest && imageWidthBiggest === -1) {
+    newImageSize.width = newImageSize.height = frame.height;
+  } else if (!frameWidthBiggest && imageWidthBiggest === -1) {
+    newImageSize.width = newImageSize.height = frame.width;
   } else {
-    if (imageWidthBiggest === -1) {
-      newImageSize.width = frame.width;
-      newImageSize.height = frame.width;
-    } else if (imageWidthBiggest) {
-      newImageSize.width = frame.width;
-      newImageSize.height = Math.floor(frame.width / imageAspectRatio);
-    } else {
-      newImageSize.width = Math.floor(frame.height / imageAspectRatio);
-      newImageSize.height = frame.height;
-    }
+    newImageSize.width = (imageWidthBiggest) ? frame.width : Math.floor(frame.height / imageAspectRatio);
+    newImageSize.height = (imageWidthBiggest) ? Math.floor(frame.width / imageAspectRatio) : frame.height;
   }
 
   return newImageSize;
