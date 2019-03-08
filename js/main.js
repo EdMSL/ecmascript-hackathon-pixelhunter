@@ -1,4 +1,4 @@
 import {renderScreen} from './utils.js';
-import getIntroScreen from './intro.js';
+import getIntroScreen from './intro-controller.js';
 
-renderScreen([getIntroScreen()]);
+renderScreen([getIntroScreen().element]);

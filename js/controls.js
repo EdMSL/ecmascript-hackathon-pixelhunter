@@ -1,12 +1,12 @@
 import {renderScreen} from './utils.js';
-import getIntroScreen from './intro.js';
+import getIntroScreen from './intro-controller.js';
 import {PointsForGameStage} from './game-data.js';
 
 const TRIPLE_SCREEN_CORRECT_TYPE = `paint`;
 
 const onToMainScreenButtonClick = (evt) => {
   evt.preventDefault();
-  renderScreen([getIntroScreen()]);
+  renderScreen([getIntroScreen().element]);
 };
 
 const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
