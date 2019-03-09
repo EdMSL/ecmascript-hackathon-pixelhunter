@@ -1,6 +1,6 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
 import {isAllRadioGroupsChecked, checkForCorrect, setNextLevel, deleteLive, changeAnswers} from './controls.js';
-import getStatsScreen from './stats.js';
+import getStatsScreen from './stats-controller.js';
 import getHeaderScreen from './header-controller.js';
 import GameQuestions from './game-questions.js';
 import getGameScreenTemplate from './game-screen-template.js';
@@ -67,7 +67,7 @@ const renderGameScreen = (state) => {
   if (state.lives > 0 && state.level <= GameQuestions.length - 1) {
     renderScreen([getHeaderScreen(state).element, getGameScreen(state)]);
   } else {
-    renderScreen([getStatsScreen(state)]);
+    renderScreen([getStatsScreen(state).element]);
   }
 };
 
