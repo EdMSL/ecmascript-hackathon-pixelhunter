@@ -1,16 +1,5 @@
 import AbstractView from './abstract-view.js';
-
-const backButtonTemplate = `
-  <button class="back">
-    <span class="visually-hidden">Вернуться к началу</span>
-    <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
-      <use xlink:href="img/sprite.svg#arrow-left"></use>
-    </svg>
-    <svg class="icon" width="101" height="44" viewBox="0 0 101 44" fill="#000000">
-      <use xlink:href="img/sprite.svg#logo-small"></use>
-    </svg>
-  </button>
-`;
+import getBackButton from './back-button-controller.js';
 
 const getGameLivesTemplate = (state) => `
   <div class="game__timer">NN</div>
@@ -35,27 +24,19 @@ class HeaderView extends AbstractView {
   get template() {
     let headerTemplate = (this.state) ? `
     <header class="header">
-      ${backButtonTemplate}
       ${getGameLivesTemplate(this.state)}
     </header>
     ` : `
     <header class="header">
-      ${backButtonTemplate}
     </header>
     `;
 
     return headerTemplate;
   }
 
-  onClick() {}
-
   bind() {
-    const backButton = this._element.querySelector(`.back`);
-
-    backButton.addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      this.onClick(evt);
-    });
+    const header = this._element.querySelector(`.header`);
+    header.insertAdjacentElement(`afterbegin`, getBackButton().element);
   }
 }
 

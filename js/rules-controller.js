@@ -1,12 +1,11 @@
 import RulesView from './rules-view.js';
-import {renderScreen} from './utils.js';
-import getHeaderScreen from './header-controller.js';
-import getGreetingScreen from './greeting-controller.js';
+import renderGameScreen from './game-screen.js';
+import {GAME_STATE} from './game-data.js';
 
-const getRulesScreen = (state) => {
+const getRulesScreen = () => {
   const rulesScreen = new RulesView();
 
-  rulesScreen.onSubmit = () => renderScreen([getHeaderScreen(state).element, getGreetingScreen().element]);
+  rulesScreen.onSubmit = () => renderGameScreen(GAME_STATE);
 
   return rulesScreen;
 };
