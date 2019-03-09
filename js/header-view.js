@@ -1,7 +1,6 @@
-import {makeElementFromTemplate} from './utils.js';
-import {onToMainScreenButtonClick} from './controls.js';
+import AbstractView from './abstract-view.js';
 
-const statsTemplate = `
+const backButtonTemplate = `
   <button class="back">
     <span class="visually-hidden">Вернуться к началу</span>
     <svg class="icon" width="45" height="45" viewBox="0 0 45 45" fill="#000000">
@@ -13,7 +12,7 @@ const statsTemplate = `
   </button>
 `;
 
-const getGameTemplate = (state) => `
+const getGameLivesTemplate = (state) => `
   <div class="game__timer">NN</div>
   <div class="game__lives">
   ${new Array(state.maxLives - state.lives)
@@ -25,30 +24,39 @@ const getGameTemplate = (state) => `
   </div>
 `;
 
-const getHeader = (state) => {
-  let headerTemplate;
-
-  if (state) {
-    headerTemplate = `
-    <header class="header">
-      ${statsTemplate}
-      ${getGameTemplate(state)}
-    </header>
-    `;
-  } else {
-    headerTemplate = `
-    <header class="header">
-      ${statsTemplate}
-    </header>
-    `;
+class HeaderView extends AbstractView {
+  constructor(state) {
+    super();
+    if (state) {
+      this.state = state;
+    }
   }
 
-  const headerElement = makeElementFromTemplate(headerTemplate);
+  get template() {
+    let headerTemplate = (this.state) ? `
+    <header class="header">
+      ${backButtonTemplate}
+      ${getGameLivesTemplate(this.state)}
+    </header>
+    ` : `
+    <header class="header">
+      ${backButtonTemplate}
+    </header>
+    `;
 
-  const backButton = headerElement.querySelector(`.back`);
-  backButton.addEventListener(`click`, onToMainScreenButtonClick);
+    return headerTemplate;
+  }
 
-  return headerElement;
-};
+  onClick() {}
 
-export default getHeader;
+  bind() {
+    const backButton = this._element.querySelector(`.back`);
+
+    backButton.addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      this.onClick(evt);
+    });
+  }
+}
+
+export default HeaderView;

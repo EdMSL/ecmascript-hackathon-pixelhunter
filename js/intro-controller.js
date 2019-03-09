@@ -1,12 +1,12 @@
 import IntroView from './intro-view.js';
 import {renderScreen} from './utils.js';
-import getHeader from './header.js';
+import getHeaderScreen from './header-controller.js';
 import getRulesScreen from './rules.js';
 
-const getIntroScreen = () => {
-  const introScreen = new IntroView();
+const getIntroScreen = (state) => {
+  const introScreen = new IntroView(state);
 
-  introScreen.onClick = () => renderScreen([getHeader(), getRulesScreen()]);
+  introScreen.onClick = () => renderScreen([getHeaderScreen(state).element, getRulesScreen()]);
 
   return introScreen;
 };

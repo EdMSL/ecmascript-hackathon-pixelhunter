@@ -1,5 +1,5 @@
 import {makeElementFromTemplate, renderScreen} from './utils.js';
-import getHeader from './header.js';
+import getHeaderScreen from './header-controller.js';
 import getRulesScreen from './rules.js';
 
 const getGreetingScreen = () => {
@@ -33,7 +33,7 @@ const getGreetingScreen = () => {
 
   const onGreetingButtonClick = (evt) => {
     evt.preventDefault();
-    renderScreen([getHeader(), getRulesScreen()]);
+    renderScreen([getHeaderScreen().element, getRulesScreen()]);
   };
 
   greetingButton.addEventListener(`click`, onGreetingButtonClick);
