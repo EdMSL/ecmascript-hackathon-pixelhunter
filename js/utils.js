@@ -18,7 +18,12 @@ const renderScreen = (elements) => {
   });
 };
 
+const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
+
+const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) => isRadioGroupChecked(radioGroup));
+
 export {
   makeElementFromTemplate,
-  renderScreen
+  renderScreen,
+  isAllRadioGroupsChecked
 };

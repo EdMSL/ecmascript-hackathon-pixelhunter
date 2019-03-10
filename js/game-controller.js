@@ -1,6 +1,6 @@
 import GameView from './game-view.js';
-import {renderScreen} from './utils.js';
-import {isAllRadioGroupsChecked, checkForCorrect, setNextLevel, deleteLive, changeAnswers} from './controls.js';
+import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
+import {checkForCorrect, setNextLevel, deleteLive, changeAnswers} from './game-logick.js';
 import getStatsScreen from './stats-controller.js';
 import getHeaderScreen from './header-controller.js';
 import GameQuestions from './game-questions.js';

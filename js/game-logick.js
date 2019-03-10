@@ -2,10 +2,6 @@ import {PointsForGameStage} from './game-data.js';
 
 const TRIPLE_SCREEN_CORRECT_TYPE = `paint`;
 
-const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
-
-const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) => isRadioGroupChecked(radioGroup));
-
 const checkRadioAnswers = (gameQuestion, radioGroups) => {
   let answers = [];
   [...radioGroups].forEach((element) => {
@@ -55,7 +51,6 @@ const getScore = (state) => {
 };
 
 export {
-  isAllRadioGroupsChecked,
   checkForCorrect,
   setNextLevel,
   deleteLive,

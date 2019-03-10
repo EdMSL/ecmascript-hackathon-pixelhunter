@@ -1,5 +1,5 @@
 import getAnswersListTemplate from './answers-list.js';
-import {getScore} from './controls.js';
+import {getScore} from './game-logick.js';
 import {PointsForGameStage, AnswerTypes} from './game-data.js';
 import AbstractView from './abstract-view.js';
 
