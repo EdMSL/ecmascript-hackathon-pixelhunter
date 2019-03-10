@@ -1,5 +1,5 @@
 import RulesView from './rules-view.js';
-import renderGameScreen from './game-screen.js';
+import renderGameScreen from './game-controller.js';
 import {GAME_STATE} from './game-data.js';
 
 const getRulesScreen = () => {
