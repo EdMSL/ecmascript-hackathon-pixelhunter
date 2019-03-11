@@ -1,10 +1,12 @@
 import GameView from './game-view.js';
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
-import {checkForCorrect, setNextLevel, deleteLive, changeAnswers} from './game-logick.js';
+import {checkForCorrect, setNextLevel, deleteLive, changeAnswers, startTimer, stopTimer} from './game-logick.js';
 import getStatsScreen from './stats-controller.js';
 import getHeaderScreen from './header-controller.js';
 import GameQuestions from './game-questions.js';
 import {AnswerTypes} from './game-data.js';
+
+let game;
 
 const getNextGameScreen = (state, question, checkedItems) => {
   if (checkForCorrect(question, checkedItems)) {
@@ -46,11 +48,20 @@ const getGameScreen = (state) => {
   return gameScreen;
 };
 
+
 const renderGameScreen = (state) => {
-  if (state.lives > 0 && state.level <= GameQuestions.length - 1) {
-    renderScreen([getHeaderScreen(state).element, getGameScreen(state).element]);
+  game = Object.assign({}, state);
+
+  if (game.lives > 0 && game.level <= GameQuestions.length - 1) {
+    stopTimer();
+
+    const header = getHeaderScreen(game).element;
+
+    renderScreen([header, getGameScreen(game).element]);
+    startTimer(game, header);
   } else {
-    renderScreen([getStatsScreen(state).element]);
+    stopTimer();
+    renderScreen([getStatsScreen(game).element]);
   }
 };
 

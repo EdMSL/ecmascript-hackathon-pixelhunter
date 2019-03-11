@@ -1,6 +1,9 @@
 import {PointsForGameStage} from './game-data.js';
+import {updateView} from './utils.js';
+import getHeaderScreen from './header-controller.js';
 
 const TRIPLE_SCREEN_CORRECT_TYPE = `paint`;
+const ONE_SECOND = 1000;
 
 const checkRadioAnswers = (gameQuestion, radioGroups) => {
   let answers = [];
@@ -50,10 +53,28 @@ const getScore = (state) => {
   return totalPoints;
 };
 
+let timer;
+
+const startTimer = (state, element) => {
+  timer = setInterval(() => {
+    state = Object.assign({}, state, {time: state.time - 1});
+    updateView(element, getHeaderScreen(state).element);
+    if (state.time === 0) {
+      clearInterval(timer);
+    }
+  }, ONE_SECOND);
+};
+
+const stopTimer = () => {
+  clearInterval(timer);
+};
+
 export {
   checkForCorrect,
   setNextLevel,
   deleteLive,
   changeAnswers,
-  getScore
+  getScore,
+  startTimer,
+  stopTimer
 };

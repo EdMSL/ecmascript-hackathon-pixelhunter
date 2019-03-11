@@ -18,6 +18,11 @@ const renderScreen = (elements) => {
   });
 };
 
+const updateView = (container, view) => {
+  container.innerHTML = ``;
+  container.appendChild(view);
+};
+
 const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
 
 const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) => isRadioGroupChecked(radioGroup));
@@ -25,5 +30,6 @@ const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) 
 export {
   makeElementFromTemplate,
   renderScreen,
-  isAllRadioGroupsChecked
+  isAllRadioGroupsChecked,
+  updateView
 };
