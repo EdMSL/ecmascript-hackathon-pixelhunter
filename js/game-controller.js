@@ -10,7 +10,13 @@ let game;
 
 const getNextGameScreen = (state, question, checkedItems) => {
   if (checkForCorrect(question, checkedItems)) {
-    renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.CORRECT)));
+    if (state.time > 20) {
+      renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.FAST)));
+    } else if (state.time < 10) {
+      renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.SLOW)));
+    } else {
+      renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.CORRECT)));
+    }
   } else {
     renderGameScreen(setNextLevel(deleteLive(changeAnswers(state, AnswerTypes.WRONG))));
   }
@@ -51,6 +57,8 @@ const getGameScreen = (state) => {
 
 const renderGameScreen = (state) => {
   game = Object.assign({}, state);
+
+  setInterval(()=>console.log(game.time), 1000)
 
   if (game.lives > 0 && game.level <= GameQuestions.length - 1) {
     stopTimer();
