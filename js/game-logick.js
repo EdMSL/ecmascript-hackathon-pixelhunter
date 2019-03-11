@@ -1,17 +1,6 @@
-import {renderScreen} from './utils.js';
-import getIntroScreen from './intro.js';
 import {PointsForGameStage} from './game-data.js';
 
 const TRIPLE_SCREEN_CORRECT_TYPE = `paint`;
-
-const onToMainScreenButtonClick = (evt) => {
-  evt.preventDefault();
-  renderScreen([getIntroScreen()]);
-};
-
-const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
-
-const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) => isRadioGroupChecked(radioGroup));
 
 const checkRadioAnswers = (gameQuestion, radioGroups) => {
   let answers = [];
@@ -62,8 +51,6 @@ const getScore = (state) => {
 };
 
 export {
-  onToMainScreenButtonClick,
-  isAllRadioGroupsChecked,
   checkForCorrect,
   setNextLevel,
   deleteLive,
