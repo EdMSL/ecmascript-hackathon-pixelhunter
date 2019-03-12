@@ -1,6 +1,6 @@
 import GameView from './game-view.js';
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
-import {checkForCorrect, setNextLevel, deleteLive, changeAnswers, startTimer, stopTimer} from './game-logick.js';
+import {checkForCorrect, setNextLevel, deleteLive, changeAnswers, startTimer, stopTimer, timeLeft} from './game-logick.js';
 import getStatsScreen from './stats-controller.js';
 import getHeaderScreen from './header-controller.js';
 import GameQuestions from './game-questions.js';
@@ -10,9 +10,9 @@ let game;
 
 const getNextGameScreen = (state, question, checkedItems) => {
   if (checkForCorrect(question, checkedItems)) {
-    if (state.time > 20) {
+    if (timeLeft > 20) {
       renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.FAST)));
-    } else if (state.time < 10) {
+    } else if (timeLeft < 10) {
       renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.SLOW)));
     } else {
       renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.CORRECT)));
@@ -57,8 +57,6 @@ const getGameScreen = (state) => {
 
 const renderGameScreen = (state) => {
   game = Object.assign({}, state);
-
-  setInterval(()=>console.log(game.time), 1000)
 
   if (game.lives > 0 && game.level <= GameQuestions.length - 1) {
     stopTimer();

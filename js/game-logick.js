@@ -51,7 +51,14 @@ const setDefaultTime = (state) => Object.assign({}, state, {time: GAME_STATE.tim
 
 const getScore = (state) => {
   let totalPoints = state.answers.reduce((points, answer) => {
-    return points + PointsForGameStage[answer.toUpperCase()];
+    let currentPoints;
+
+    if (answer === AnswerTypes.FAST || answer === AnswerTypes.SLOW) {
+      currentPoints = PointsForGameStage[answer.toUpperCase()] + PointsForGameStage[AnswerTypes.CORRECT.toUpperCase()];
+    } else {
+      currentPoints = PointsForGameStage[answer.toUpperCase()];
+    }
+    return points + currentPoints;
   }, 0);
 
   totalPoints += state.lives * PointsForGameStage.LIVE;
@@ -60,10 +67,15 @@ const getScore = (state) => {
 };
 
 let timer;
+let maxTime;
+let timeLeft;
 
 const startTimer = (state, element) => {
+  maxTime = state.time;
+  timeLeft = maxTime;
   timer = setInterval(() => {
     state = changeTime(state);
+    timeLeft--;
     updateView(element, getHeaderScreen(state).element);
     if (state.time === 0) {
       renderGameScreen(setDefaultTime(setNextLevel(deleteLive(changeAnswers(state, AnswerTypes.WRONG)))));
@@ -82,5 +94,6 @@ export {
   changeAnswers,
   getScore,
   startTimer,
-  stopTimer
+  stopTimer,
+  timeLeft
 };

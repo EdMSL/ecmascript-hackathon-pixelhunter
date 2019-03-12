@@ -54,7 +54,7 @@ const getWinTemplate = (state) => `
       ${getAnswersListTemplate(state)}
     </td>
     <td class="result__points">× ${PointsForGameStage[(AnswerTypes.CORRECT).toUpperCase()]}</td>
-    <td class="result__total">${findCurrentAnswerType(state, AnswerTypes.CORRECT) * PointsForGameStage[(AnswerTypes.CORRECT).toUpperCase()]}</td>
+    <td class="result__total">${(state.answers.length - findCurrentAnswerType(state, AnswerTypes.WRONG)) * PointsForGameStage[(AnswerTypes.CORRECT).toUpperCase()]}</td>
   </tr>
   ${getExtraBonusesAndPenalties(state)}
   <tr>
