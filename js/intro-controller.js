@@ -3,12 +3,11 @@ import {renderScreen} from './utils.js';
 import getHeaderScreen from './header-controller.js';
 import getGreetingScreen from './greeting-controller.js';
 
-const getIntroScreen = (state) => {
-  const introScreen = new IntroView();
+class Intro {
+  constructor() {
+    this.introScreen = new IntroView();
+    this.introScreen.onClick = () => renderScreen([getHeaderScreen().element, getGreetingScreen().element]);
+  }
+}
 
-  introScreen.onClick = () => renderScreen([getHeaderScreen(state).element, getGreetingScreen().element]);
-
-  return introScreen;
-};
-
-export default getIntroScreen;
+export default Intro;
