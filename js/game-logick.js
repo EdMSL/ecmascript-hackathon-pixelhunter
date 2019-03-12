@@ -7,6 +7,10 @@ import {AnswerTypes, GAME_STATE} from './game-data.js';
 const TRIPLE_SCREEN_CORRECT_TYPE = `paint`;
 const ONE_SECOND = 1000;
 
+let timer;
+let maxTime;
+let timeLeft;
+
 const checkRadioAnswers = (gameQuestion, radioGroups) => {
   let answers = [];
   [...radioGroups].forEach((element) => {
@@ -43,7 +47,7 @@ const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1
 
 const deleteLive = (state) => Object.assign({}, state, {lives: state.lives - 1});
 
-const changeTime = (state) => Object.assign({}, state, {time: state.time - 1});
+const changeTime = (state, time) => Object.assign({}, state, {time});
 
 const changeAnswers = (state, newAnswer) => Object.assign({}, state, {answers: addAnswer(state, newAnswer)});
 
@@ -66,16 +70,12 @@ const getScore = (state) => {
   return totalPoints;
 };
 
-let timer;
-let maxTime;
-let timeLeft;
-
 const startTimer = (state, element) => {
   maxTime = state.time;
   timeLeft = maxTime;
   timer = setInterval(() => {
-    state = changeTime(state);
     timeLeft--;
+    state = changeTime(state, timeLeft);
     updateView(element, getHeaderScreen(state).element);
     if (state.time === 0) {
       renderGameScreen(setDefaultTime(setNextLevel(deleteLive(changeAnswers(state, AnswerTypes.WRONG)))));
@@ -95,5 +95,6 @@ export {
   getScore,
   startTimer,
   stopTimer,
-  timeLeft
+  timeLeft,
+  changeTime
 };
