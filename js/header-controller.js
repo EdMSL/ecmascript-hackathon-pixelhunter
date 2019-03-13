@@ -1,9 +1,9 @@
 import HeaderView from './header-view.js';
 
-class headerController {
+class HeaderController {
   constructor(state) {
     this.headerView = new HeaderView(state);
   }
 }
 
-export default headerController;
+export default HeaderController;

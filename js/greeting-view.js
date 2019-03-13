@@ -1,8 +1,10 @@
 import AbstractView from './abstract-view.js';
+import HeaderController from './header-controller.js';
 
 class GreetingView extends AbstractView {
   constructor() {
     super();
+    this.header = new HeaderController().headerView.element;
   }
 
   get template() {
@@ -36,7 +38,10 @@ class GreetingView extends AbstractView {
   onClick() {}
 
   bind() {
+    const mainSection = this._element.querySelector(`section`);
     const greetingButton = this._element.querySelector(`.greeting__continue`);
+
+    mainSection.insertAdjacentElement(`beforebegin`, this.header);
 
     greetingButton.addEventListener(`click`, (evt) => {
       evt.preventDefault();

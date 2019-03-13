@@ -1,10 +1,12 @@
 import AbstractView from './abstract-view.js';
+import HeaderController from './header-controller.js';
 
 const NAME_MIN_LENGTH = 3;
 
 class RulesView extends AbstractView {
   constructor() {
     super();
+    this.header = new HeaderController().headerView.element;
   }
 
   get template() {
@@ -31,9 +33,12 @@ class RulesView extends AbstractView {
   onSubmit() {}
 
   bind() {
+    const mainSection = this._element.querySelector(`section`);
     const rulesForm = this._element.querySelector(`.rules__form`);
     const rulesInput = this._element.querySelector(`.rules__input`);
     const rulesButton = this._element.querySelector(`.rules__button`);
+
+    mainSection.insertAdjacentElement(`beforebegin`, this.header);
 
     rulesForm.addEventListener(`submit`, (evt) => {
       evt.preventDefault();

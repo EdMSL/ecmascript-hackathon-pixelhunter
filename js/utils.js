@@ -1,4 +1,4 @@
-const main = document.querySelector(`#main`);
+const mainSection = document.querySelector(`#main`);
 
 const makeElementFromTemplate = (template) => {
   const element = document.createElement(`div`);
@@ -8,14 +8,12 @@ const makeElementFromTemplate = (template) => {
 };
 
 const clearScreen = () => {
-  main.innerHTML = ``;
+  mainSection.innerHTML = ``;
 };
 
-const renderScreen = (elements) => {
+const renderScreen = (element) => {
   clearScreen();
-  elements.forEach((template) => {
-    main.appendChild(template);
-  });
+  mainSection.appendChild(element);
 };
 
 const updateView = (container, view) => {
