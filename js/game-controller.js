@@ -2,7 +2,7 @@ import GameView from './game-view.js';
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
 import {checkForCorrect, setNextLevel, deleteLive, changeAnswers, startTimer, stopTimer, timeLeft, changeTime} from './game-logick.js';
 import getStatsScreen from './stats-controller.js';
-import getHeaderScreen from './header-controller.js';
+import HeaderController from './header-controller.js';
 import GameQuestions from './game-questions.js';
 import {AnswerTypes} from './game-data.js';
 
@@ -72,4 +72,19 @@ const renderGameScreen = (state) => {
   }
 };
 
-export default renderGameScreen;
+class GameController {
+  constructor(model) {
+    this.model = model;
+    this.gameView = new GameView(this.model._state);
+  }
+
+  startGame() {
+    this.addHeader(this.header);
+  }
+
+  addHeader(header) {
+    this.element.insertAdjacentElement(`afterbegin`, header);
+  }
+}
+
+export default GameController;

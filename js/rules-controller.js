@@ -1,11 +1,10 @@
 import RulesView from './rules-view.js';
-import renderGameScreen from './game-controller.js';
-import {GAME_STATE} from './game-data.js';
+import Application from './application.js';
 
 class RulesController {
   constructor() {
     this.rulesView = new RulesView();
-    this.rulesView.onSubmit = () => renderGameScreen(GAME_STATE);
+    this.rulesView.onSubmit = () => Application.showGame();
   }
 }
 

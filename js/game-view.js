@@ -1,4 +1,5 @@
 import AbstractView from './abstract-view.js';
+import HeaderController from './header-controller.js';
 import getAnswersListTemplate from './answers-list.js';
 import GameQuestions from './game-questions.js';
 
@@ -27,7 +28,8 @@ class GameView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
-    this.question = GameQuestions[state.level];
+    this.header = new HeaderController(this.state).headerView.element;
+    this.question = GameQuestions[this.state.level];
   }
 
   get template() {
@@ -77,7 +79,10 @@ class GameView extends AbstractView {
   onClick() {}
 
   bind() {
+    const mainSection = this._element.querySelector(`section`);
     const gameContentForm = this._element.querySelector(`.game__content`);
+
+    mainSection.insertAdjacentElement(`beforebegin`, this.header);
 
     switch (this.question.length) {
       case TRIPLE_GAME_SCREEN:

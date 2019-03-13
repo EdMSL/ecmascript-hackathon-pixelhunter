@@ -11,6 +11,12 @@ let timer;
 let maxTime;
 let timeLeft;
 
+const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1});
+
+const deleteLive = (state) => Object.assign({}, state, {lives: state.lives - 1});
+
+
+
 const checkRadioAnswers = (gameQuestion, radioGroups) => {
   let answers = [];
   [...radioGroups].forEach((element) => {
@@ -42,10 +48,6 @@ const addAnswer = (state, newAnswer) => {
 
   return state.answers;
 };
-
-const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1});
-
-const deleteLive = (state) => Object.assign({}, state, {lives: state.lives - 1});
 
 const changeTime = (state, time) => Object.assign({}, state, {time});
 
