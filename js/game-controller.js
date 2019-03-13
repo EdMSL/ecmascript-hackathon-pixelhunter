@@ -60,14 +60,14 @@ const renderGameScreen = (state) => {
   game = Object.assign({}, state);
 
   if (game.lives > 0 && game.level <= GameQuestions.length - 1) {
-    stopTimer();
+    // stopTimer();
 
-    const header = getHeaderScreen(game).element;
+    // const header = getHeaderScreen(game).element;
 
-    renderScreen([header, getGameScreen(game).element]);
-    startTimer(game, header);
+    renderScreen([getGameScreen(game).element]);
+    // startTimer(game, header);
   } else {
-    stopTimer();
+    // stopTimer();
     renderScreen([getStatsScreen(game).element]);
   }
 };

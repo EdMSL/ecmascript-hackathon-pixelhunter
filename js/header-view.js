@@ -1,5 +1,5 @@
 import AbstractView from './abstract-view.js';
-import getBackButton from './back-button-controller.js';
+import BackButtonController from './back-button-controller.js';
 
 const getGameLivesTemplate = (state) => `
   <div class="game__timer">${state.time}</div>
@@ -16,6 +16,7 @@ const getGameLivesTemplate = (state) => `
 class HeaderView extends AbstractView {
   constructor(state) {
     super();
+    this.backButton = new BackButtonController().backButtonView.element;
     if (state) {
       this.state = state;
     }
@@ -36,7 +37,7 @@ class HeaderView extends AbstractView {
 
   bind() {
     const header = this._element.querySelector(`.header`);
-    header.insertAdjacentElement(`afterbegin`, getBackButton().element);
+    header.insertAdjacentElement(`afterbegin`, this.backButton);
   }
 }
 

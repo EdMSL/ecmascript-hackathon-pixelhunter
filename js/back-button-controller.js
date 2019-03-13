@@ -1,17 +1,15 @@
 import BackButtonView from './back-button-view.js';
-import getIntroScreen from './intro-controller.js';
-import {renderScreen} from './utils.js';
 import {stopTimer} from './game-logick.js';
+import Application from './application.js';
 
-const getBackButton = () => {
-  const backButton = new BackButtonView();
+class BackButtonController {
+  constructor() {
+    this.backButtonView = new BackButtonView();
+    this.backButtonView.onClick = () => {
+      Application.showWelcome();
+      stopTimer();
+    };
+  }
+}
 
-  backButton.onClick = () => {
-    renderScreen([getIntroScreen().element]);
-    stopTimer();
-  };
-
-  return backButton;
-};
-
-export default getBackButton;
+export default BackButtonController;

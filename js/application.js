@@ -1,10 +1,24 @@
 import {renderScreen} from './utils.js';
-import Intro from './intro-controller.js';
+import HeaderController from './header-controller.js';
+import IntroController from './intro-controller.js';
+import GreetingController from './greeting-controller.js';
+import RulesController from './rules-controller.js';
 
 class Application {
   static showWelcome() {
-    const welcome = new Intro();
-    renderScreen([welcome.introScreen.element]);
+    const welcomeScreen = new IntroController();
+    renderScreen([welcomeScreen.introView.element]);
+  }
+
+  static showGreeting() {
+    const greetingScreen = new GreetingController();
+    renderScreen([greetingScreen.greetingView.element]);
+  }
+
+  static showRules() {
+    const rulesScreen = new RulesController();
+    const headerScreen = new HeaderController();
+    renderScreen([headerScreen.headerView.element, rulesScreen.rulesView.element]);
   }
 }
 
