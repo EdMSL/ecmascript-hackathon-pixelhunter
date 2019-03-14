@@ -1,8 +1,8 @@
-import GameView from './game-view.js';
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
 import {checkForCorrect} from './game-logick.js';
-import GameQuestions from './game-questions.js';
 import {AnswerTypes} from './game-data.js';
+import GameQuestions from './game-questions.js';
+import GameView from './game-view.js';
 import Application from './application.js';
 
 const ONE_SECOND = 1000;
@@ -62,23 +62,21 @@ class GameController {
     if (checkForCorrect(this.question, checkedItems)) {
       if (this.model.state.time > 20) {
         this.model.changeAnswers(AnswerTypes.FAST);
-        this.canContinue();
       } else if (this.model.state.time < 10) {
         this.model.changeAnswers(AnswerTypes.SLOW);
-        this.canContinue();
       } else {
         this.model.changeAnswers(AnswerTypes.CORRECT);
-        this.canContinue();
       }
     } else {
       this.model.changeAnswers(AnswerTypes.WRONG);
       this.model.deleteLive();
-      this.canContinue();
     }
+
+    this.canContinue();
   }
 
   canContinue() {
-    if (this.model.state.lives > 0 && this.model.state.level <= GameQuestions.length) {
+    if (this.model.state.lives > 0 && this.model.state.level < GameQuestions.length) {
       this.startGame();
     } else {
       Application.showStats(this.model.state);

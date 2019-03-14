@@ -1,9 +1,11 @@
 import StatsView from './stats-view.js';
+import Application from './application.js';
 
-const getStatsScreen = (state) => {
-  const statsScreen = new StatsView(state);
+class StatsController {
+  constructor(state) {
+    this.statsView = new StatsView(state);
+    this.statsView.goToStartScreen = () => Application.showWelcome();
+  }
+}
 
-  return statsScreen;
-};
-
-export default getStatsScreen;
+export default StatsController;
