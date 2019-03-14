@@ -24,10 +24,11 @@ const STANDART_HEIGHT = 458;
 const setTemplateParameterValue = (question, parameterValue1, parameterValue2) => question.length === 1 ? parameterValue1 : parameterValue2;
 
 class GameView extends AbstractView {
-  constructor(state, question) {
+  constructor(state, question, cb) {
     super();
     this.state = state;
-    this.header = new HeaderController(this.state).headerView.element;
+    this.header = new HeaderController(this.state, cb);
+    // this.header = this.headerf.headerView.element;
     this.question = question;
   }
 
@@ -73,19 +74,20 @@ class GameView extends AbstractView {
     }
   }
 
+  updateHeader(state) {
+    this.state = state;
+    this.header.headerView.updateTimer(this.state);
+  }
+
   onChange() {}
 
   onClick() {}
 
-  updateHeader() {
-    // updateView();
-  }
-
   bind() {
-    const mainSection = this._element.querySelector(`section`);
+    this.mainSection = this._element.querySelector(`section`);
     const gameContentForm = this._element.querySelector(`.game__content`);
 
-    mainSection.insertAdjacentElement(`beforebegin`, this.header);
+    this.mainSection.insertAdjacentElement(`beforebegin`, this.header.headerView.element);
 
     switch (this.question.length) {
       case TRIPLE_GAME_SCREEN:

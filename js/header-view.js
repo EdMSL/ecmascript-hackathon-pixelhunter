@@ -14,11 +14,12 @@ const getGameLivesTemplate = (state) => `
 `;
 
 class HeaderView extends AbstractView {
-  constructor(state) {
+  constructor(state, cb) {
     super();
-    this.backButton = new BackButtonController().backButtonView.element;
+    this.backButton = new BackButtonController(cb).backButtonView.element;
     if (state) {
       this.state = state;
+      this.timerValue = this.element.querySelector(`.game__timer`);
     }
   }
 
@@ -35,9 +36,14 @@ class HeaderView extends AbstractView {
     return headerTemplate;
   }
 
+  updateTimer(state) {
+    this.state = state;
+    this.timerValue.textContent = this.state.time;
+  }
+
   bind() {
-    const header = this._element.querySelector(`.header`);
-    header.insertAdjacentElement(`afterbegin`, this.backButton);
+    this.header = this._element.querySelector(`.header`);
+    this.header.insertAdjacentElement(`afterbegin`, this.backButton);
   }
 }
 

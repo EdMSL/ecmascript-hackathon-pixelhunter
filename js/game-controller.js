@@ -1,10 +1,12 @@
 import GameView from './game-view.js';
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
-import {checkForCorrect, setNextLevel, deleteLive, changeAnswers, startTimer, stopTimer, timeLeft, changeTime} from './game-logick.js';
+import {checkForCorrect} from './game-logick.js';
 import HeaderController from './header-controller.js';
 import GameQuestions from './game-questions.js';
 import {AnswerTypes} from './game-data.js';
 import Application from './application.js';
+
+const ONE_SECOND = 1000;
 
 class GameController {
   constructor(model) {
@@ -13,14 +15,16 @@ class GameController {
   }
 
   startGame() {
+    this.stopTimer();
     this.model.setNextLevel();
-    this.gameInit();
+    this.initGame();
     renderScreen(this.gameView.element);
+    this.startTimer();
   }
 
-  gameInit() {
+  initGame() {
     this.question = GameQuestions[this.model._state.level - 1];
-    this.gameView = new GameView(this.model._state, this.question);
+    this.gameView = new GameView(this.model._state, this.question, this.stopTimer);
 
     this.gameView.onChange = () => {
       let QuestionInputsGroups = this.gameView._element.querySelectorAll(`.game__option`);
@@ -50,18 +54,27 @@ class GameController {
   }
 
   checkAnswers(checkedItems) {
+    this.stopTimer();
+
     if (checkForCorrect(this.question, checkedItems)) {
       if (this.model.time > 20) {
         this.model.changeAnswers(AnswerTypes.FAST);
+        this.getNextScreen();
       } else if (this.model.time < 10) {
         this.model.changeAnswers(AnswerTypes.SLOW);
+        this.getNextScreen();
       } else {
         this.model.changeAnswers(AnswerTypes.CORRECT);
+        this.getNextScreen();
       }
     } else {
       this.model.changeAnswers(AnswerTypes.WRONG);
       this.model.deleteLive();
+      this.getNextScreen();
     }
+  }
+
+  getNextScreen() {
     if (this.model.isCanContinue()) {
       this.startGame();
     } else {
@@ -70,14 +83,38 @@ class GameController {
   }
 
   _changeTime() {
-    this.model._changeTime();
-    this.gameView.updateHeader(this.model.state);
+    this.model.changeTime();
+    this.gameView.updateHeader(this.model._state);
 
-    if (this.model.state.time === 0) {
+    if (this.model._state.time === 0) {
       this.onTimeout();
-    } else {
-      this._timer = setTimeout(() => this._changeTime(), 1000);
     }
+  }
+
+  startTimer() {
+    // this.model.setDefaultTime();
+    this._timer = setInterval(() => this._changeTime(), ONE_SECOND);
+  }
+
+  stopTimer() {
+    clearInterval(this._timer);
+  }
+
+  // updateHeader() {
+  //   const main = document.querySelector(`#main`);
+  //   const mainf = document.querySelector(`#main > div`);
+  //   const newHeader = new HeaderController(this.model._state).headerView.element;
+  //   console.log(main)
+  //   console.log(newHeader)
+  //   this.gameView.header.replaceChild(newHeader, mainf);
+  // }
+
+  onTimeout() {
+    this.stopTimer();
+    this.model.changeAnswers(AnswerTypes.WRONG);
+    this.model.deleteLive();
+    this.model.setDefaultTime();
+    this.getNextScreen();
   }
 }
 

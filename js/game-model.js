@@ -1,6 +1,6 @@
 import {GAME_STATE} from './game-data.js';
 import GameQuestions from './game-questions.js';
-import {setNextLevel, deleteLive, changeTime, changeAnswers} from './game-logick.js';
+import {setNextLevel, deleteLive, changeTime, setDefaultTime, changeAnswers} from './game-logick.js';
 
 class GameModel {
   constructor() {
@@ -21,6 +21,10 @@ class GameModel {
 
   changeTime() {
     this._state = changeTime(this._state);
+  }
+
+  setDefaultTime() {
+    this._state = setDefaultTime(this._state);
   }
 
   changeAnswers(newAnswer) {

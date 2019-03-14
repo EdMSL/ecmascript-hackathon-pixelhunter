@@ -2,7 +2,7 @@ let GAME_STATE = {
   level: 0,
   lives: 3,
   maxLives: 3,
-  time: 30,
+  time: 5,
   answers: [`unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`]
 };
 

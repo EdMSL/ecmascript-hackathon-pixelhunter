@@ -1,8 +1,8 @@
 import HeaderView from './header-view.js';
 
 class HeaderController {
-  constructor(state) {
-    this.headerView = new HeaderView(state);
+  constructor(state, cb) {
+    this.headerView = new HeaderView(state, cb);
   }
 }
 

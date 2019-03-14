@@ -25,7 +25,6 @@ class Application {
   static showGame() {
     const gameScreen = new GameController(new GameModel());
     gameScreen.startGame();
-    // renderScreen(gameScreen.gameView.element);
   }
 
   static showStats(stats) {

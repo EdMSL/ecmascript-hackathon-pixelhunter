@@ -76,18 +76,18 @@ const setDefaultTime = (state) => Object.assign({}, state, {time: GAME_STATE.tim
 
 const changeTime = (state) => Object.assign({}, state, {time: state.time - 1});
 
-const startTimer = (state, element) => {
-  maxTime = state.time;
-  timeLeft = maxTime;
-  timer = setInterval(() => {
-    timeLeft--;
-    state = changeTime(state, timeLeft);
-    updateView(element, getHeaderScreen(state).element);
-    if (state.time === 0) {
-      renderGameScreen(setDefaultTime(setNextLevel(deleteLive(changeAnswers(state, AnswerTypes.WRONG)))));
-    }
-  }, ONE_SECOND);
-};
+// const startTimer = (state, element) => {
+//   maxTime = state.time;
+//   timeLeft = maxTime;
+//   timer = setInterval(() => {
+//     timeLeft--;
+//     state = changeTime(state, timeLeft);
+//     updateView(element, getHeaderScreen(state).element);
+//     if (state.time === 0) {
+//       renderGameScreen(setDefaultTime(setNextLevel(deleteLive(changeAnswers(state, AnswerTypes.WRONG)))));
+//     }
+//   }, ONE_SECOND);
+// };
 
 
 
@@ -101,7 +101,7 @@ export {
   deleteLive,
   changeAnswers,
   getScore,
-  startTimer,
+  setDefaultTime,
   stopTimer,
   timeLeft,
   changeTime
