@@ -1,5 +1,6 @@
 import {GAME_STATE} from './game-data.js';
-import {setNextLevel, deleteLive} from './game-logick.js';
+import GameQuestions from './game-questions.js';
+import {setNextLevel, deleteLive, changeTime, changeAnswers} from './game-logick.js';
 
 class GameModel {
   constructor() {
@@ -16,6 +17,18 @@ class GameModel {
 
   deleteLive() {
     this._state = deleteLive(this._state);
+  }
+
+  changeTime() {
+    this._state = changeTime(this._state);
+  }
+
+  changeAnswers(newAnswer) {
+    this._state = changeAnswers(this._state, newAnswer);
+  }
+
+  isCanContinue() {
+    return this._state.lives > 0 && this._state.level <= GameQuestions.length;
   }
 }
 

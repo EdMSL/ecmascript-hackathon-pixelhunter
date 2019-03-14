@@ -15,7 +15,13 @@ const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1
 
 const deleteLive = (state) => Object.assign({}, state, {lives: state.lives - 1});
 
+const addAnswer = (state, newAnswer) => {
+  state.answers[state.level - 1] = newAnswer;
 
+  return state.answers;
+};
+
+const changeAnswers = (state, newAnswer) => Object.assign({}, state, {answers: addAnswer(state, newAnswer)});
 
 const checkRadioAnswers = (gameQuestion, radioGroups) => {
   let answers = [];
@@ -43,17 +49,11 @@ const checkForCorrect = (question, checkedItems) => {
   }
 };
 
-const addAnswer = (state, newAnswer) => {
-  state.answers[state.level] = newAnswer;
 
-  return state.answers;
-};
 
-const changeTime = (state, time) => Object.assign({}, state, {time});
 
-const changeAnswers = (state, newAnswer) => Object.assign({}, state, {answers: addAnswer(state, newAnswer)});
 
-const setDefaultTime = (state) => Object.assign({}, state, {time: GAME_STATE.time});
+
 
 const getScore = (state) => {
   let totalPoints = state.answers.reduce((points, answer) => {
@@ -72,6 +72,10 @@ const getScore = (state) => {
   return totalPoints;
 };
 
+const setDefaultTime = (state) => Object.assign({}, state, {time: GAME_STATE.time});
+
+const changeTime = (state) => Object.assign({}, state, {time: state.time - 1});
+
 const startTimer = (state, element) => {
   maxTime = state.time;
   timeLeft = maxTime;
@@ -84,6 +88,8 @@ const startTimer = (state, element) => {
     }
   }, ONE_SECOND);
 };
+
+
 
 const stopTimer = () => {
   clearInterval(timer);

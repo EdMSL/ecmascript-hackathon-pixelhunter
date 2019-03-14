@@ -1,7 +1,6 @@
 import AbstractView from './abstract-view.js';
 import HeaderController from './header-controller.js';
 import getAnswersListTemplate from './answers-list.js';
-import GameQuestions from './game-questions.js';
 
 const SINGLE_GAME_SCREEN = 1;
 const DOUBLE_GAME_SCREEN = 2;
@@ -25,11 +24,11 @@ const STANDART_HEIGHT = 458;
 const setTemplateParameterValue = (question, parameterValue1, parameterValue2) => question.length === 1 ? parameterValue1 : parameterValue2;
 
 class GameView extends AbstractView {
-  constructor(state) {
+  constructor(state, question) {
     super();
     this.state = state;
     this.header = new HeaderController(this.state).headerView.element;
-    this.question = GameQuestions[this.state.level];
+    this.question = question;
   }
 
   get template() {
@@ -77,6 +76,10 @@ class GameView extends AbstractView {
   onChange() {}
 
   onClick() {}
+
+  updateHeader() {
+    // updateView();
+  }
 
   bind() {
     const mainSection = this._element.querySelector(`section`);
