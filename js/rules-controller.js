@@ -5,6 +5,7 @@ class RulesController {
   constructor() {
     this.rulesView = new RulesView();
     this.rulesView.onSubmit = () => Application.showGame();
+    this.rulesView.goToStartScreen = () => Application.showWelcome();
   }
 }
 

@@ -1,9 +1,14 @@
 import HeaderView from './header-view.js';
 
 class HeaderController {
-  constructor(state, cb) {
-    this.headerView = new HeaderView(state, cb);
+  constructor(state) {
+    this.headerView = new HeaderView(state);
+    this.headerView.goToStartScreen = () => {
+      this.goToStartScreen();
+    };
   }
+
+  goToStartScreen() {}
 }
 
 export default HeaderController;

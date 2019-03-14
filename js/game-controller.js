@@ -1,7 +1,6 @@
 import GameView from './game-view.js';
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
 import {checkForCorrect} from './game-logick.js';
-import HeaderController from './header-controller.js';
 import GameQuestions from './game-questions.js';
 import {AnswerTypes} from './game-data.js';
 import Application from './application.js';
@@ -15,7 +14,6 @@ class GameController {
   }
 
   startGame() {
-    this.stopTimer();
     this.model.setNextLevel();
     this.initGame();
     renderScreen(this.gameView.element);
@@ -23,8 +21,13 @@ class GameController {
   }
 
   initGame() {
-    this.question = GameQuestions[this.model._state.level - 1];
-    this.gameView = new GameView(this.model._state, this.question, this.stopTimer);
+    this.question = GameQuestions[this.model.state.level - 1];
+    this.gameView = new GameView(this.model.state, this.question, this.stopTimer);
+
+    this.gameView.goToStartScreen = () => {
+      this.stopTimer();
+      Application.showWelcome();
+    };
 
     this.gameView.onChange = () => {
       let QuestionInputsGroups = this.gameView._element.querySelectorAll(`.game__option`);
@@ -57,64 +60,58 @@ class GameController {
     this.stopTimer();
 
     if (checkForCorrect(this.question, checkedItems)) {
-      if (this.model.time > 20) {
+      if (this.model.state.time > 20) {
         this.model.changeAnswers(AnswerTypes.FAST);
-        this.getNextScreen();
-      } else if (this.model.time < 10) {
+        this.canContinue();
+      } else if (this.model.state.time < 10) {
         this.model.changeAnswers(AnswerTypes.SLOW);
-        this.getNextScreen();
+        this.canContinue();
       } else {
         this.model.changeAnswers(AnswerTypes.CORRECT);
-        this.getNextScreen();
+        this.canContinue();
       }
     } else {
       this.model.changeAnswers(AnswerTypes.WRONG);
       this.model.deleteLive();
-      this.getNextScreen();
+      this.canContinue();
     }
   }
 
-  getNextScreen() {
-    if (this.model.isCanContinue()) {
+  canContinue() {
+    if (this.model.state.lives > 0 && this.model.state.level <= GameQuestions.length) {
       this.startGame();
     } else {
-      Application.showStats(this.model._state);
+      Application.showStats(this.model.state);
     }
   }
 
-  _changeTime() {
+  changeRemainingTime() {
     this.model.changeTime();
-    this.gameView.updateHeader(this.model._state);
-
-    if (this.model._state.time === 0) {
-      this.onTimeout();
-    }
+    this.gameView.updateHeader(this.model.state);
   }
 
   startTimer() {
-    // this.model.setDefaultTime();
-    this._timer = setInterval(() => this._changeTime(), ONE_SECOND);
+    this.model.setDefaultTime();
+    this.gameView.updateHeader(this.model.state);
+    this._timer = setInterval(() => {
+      this.changeRemainingTime();
+
+      if (this.model.state.time === 0) {
+        this.onTimeout();
+      }
+    }, ONE_SECOND);
   }
 
   stopTimer() {
     clearInterval(this._timer);
   }
 
-  // updateHeader() {
-  //   const main = document.querySelector(`#main`);
-  //   const mainf = document.querySelector(`#main > div`);
-  //   const newHeader = new HeaderController(this.model._state).headerView.element;
-  //   console.log(main)
-  //   console.log(newHeader)
-  //   this.gameView.header.replaceChild(newHeader, mainf);
-  // }
-
   onTimeout() {
     this.stopTimer();
     this.model.changeAnswers(AnswerTypes.WRONG);
     this.model.deleteLive();
     this.model.setDefaultTime();
-    this.getNextScreen();
+    this.canContinue();
   }
 }
 

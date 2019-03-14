@@ -6,7 +6,10 @@ const NAME_MIN_LENGTH = 3;
 class RulesView extends AbstractView {
   constructor() {
     super();
-    this.header = new HeaderController().headerView.element;
+    this.header = new HeaderController();
+    this.header.goToStartScreen = () => {
+      this.goToStartScreen();
+    };
   }
 
   get template() {
@@ -38,7 +41,7 @@ class RulesView extends AbstractView {
     const rulesInput = this._element.querySelector(`.rules__input`);
     const rulesButton = this._element.querySelector(`.rules__button`);
 
-    mainSection.insertAdjacentElement(`beforebegin`, this.header);
+    mainSection.insertAdjacentElement(`beforebegin`, this.header.headerView.element);
 
     rulesForm.addEventListener(`submit`, (evt) => {
       evt.preventDefault();

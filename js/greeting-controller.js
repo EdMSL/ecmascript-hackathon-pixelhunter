@@ -5,6 +5,7 @@ class GreatingController {
   constructor() {
     this.greetingView = new GreetingView();
     this.greetingView.onClick = () => Application.showRules();
+    this.greetingView.goToStartScreen = () => Application.showWelcome();
   }
 }
 

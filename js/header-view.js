@@ -14,9 +14,13 @@ const getGameLivesTemplate = (state) => `
 `;
 
 class HeaderView extends AbstractView {
-  constructor(state, cb) {
+  constructor(state) {
     super();
-    this.backButton = new BackButtonController(cb).backButtonView.element;
+    this.backButton = new BackButtonController();
+    this.backButton.goToStartScreen = () => {
+      this.goToStartScreen();
+    };
+
     if (state) {
       this.state = state;
       this.timerValue = this.element.querySelector(`.game__timer`);
@@ -41,9 +45,11 @@ class HeaderView extends AbstractView {
     this.timerValue.textContent = this.state.time;
   }
 
+  goToStartScreen() {}
+
   bind() {
     this.header = this._element.querySelector(`.header`);
-    this.header.insertAdjacentElement(`afterbegin`, this.backButton);
+    this.header.insertAdjacentElement(`afterbegin`, this.backButton.backButtonView.element);
   }
 }
 

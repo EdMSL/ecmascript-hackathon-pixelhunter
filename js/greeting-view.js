@@ -4,7 +4,10 @@ import HeaderController from './header-controller.js';
 class GreetingView extends AbstractView {
   constructor() {
     super();
-    this.header = new HeaderController().headerView.element;
+    this.header = new HeaderController();
+    this.header.goToStartScreen = () => {
+      this.goToStartScreen();
+    };
   }
 
   get template() {
@@ -37,11 +40,13 @@ class GreetingView extends AbstractView {
 
   onClick() {}
 
+  goToStartScreen() {}
+
   bind() {
     const mainSection = this._element.querySelector(`section`);
     const greetingButton = this._element.querySelector(`.greeting__continue`);
 
-    mainSection.insertAdjacentElement(`beforebegin`, this.header);
+    mainSection.insertAdjacentElement(`beforebegin`, this.header.headerView.element);
 
     greetingButton.addEventListener(`click`, (evt) => {
       evt.preventDefault();
