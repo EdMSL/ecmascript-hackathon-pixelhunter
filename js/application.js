@@ -1,4 +1,5 @@
-import {renderScreen} from './utils.js';
+import {renderScreen, checkResponseStatus} from './utils.js';
+import ErrorController from './error-controller.js';
 import IntroController from './intro-controller.js';
 import GreetingController from './greeting-controller.js';
 import RulesController from './rules-controller.js';
@@ -8,30 +9,26 @@ import StatsController from './stats-controller.js';
 
 let gameData;
 
-const checkStatus = (response) => {
-  if (response.status >= 200 || response.status < 300) {
-    return response;
-  } else {
-    throw new Error(`${response.status}:${response.text}`);
-  }
-};
-
 class Application {
   static start() {
     window.fetch(`https://es.dump.academy/pixel-hunter/questions`).
-      then(checkStatus).
+      then(checkResponseStatus).
       then((response) => response.json()).
       then((data) => {
         gameData = data;
       }).
       then(()=> Application.showGreeting()).
-      catch();
+      catch(Application.showError);
   }
 
   static showWelcome() {
-    Application.start();
     const welcomeScreen = new IntroController();
     renderScreen(welcomeScreen.introView.element);
+    if (gameData) {
+      Application.showGreeting();
+    } else {
+      Application.start();
+    }
   }
 
   static showGreeting() {
@@ -45,13 +42,18 @@ class Application {
   }
 
   static showGame(playerName) {
-    const gameScreen = new GameController(new GameModel(playerName));
+    const gameScreen = new GameController(new GameModel(gameData, playerName));
     gameScreen.startGame();
   }
 
   static showStats(stats) {
     const statsScreen = new StatsController(stats);
     renderScreen(statsScreen.statsView.element);
+  }
+
+  static showError(error) {
+    const errorModal = new ErrorController(error);
+    renderScreen(errorModal.errorView.element);
   }
 }
 

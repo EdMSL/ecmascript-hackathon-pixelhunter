@@ -1,7 +1,7 @@
 import {PointsForGameStage} from './game-data.js';
 import {AnswerTypes, GAME_STATE} from './game-data.js';
 
-const TRIPLE_SCREEN_CORRECT_TYPE = `paint`;
+const TRIPLE_SCREEN_CORRECT_TYPE = `painting`;
 
 const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1});
 
@@ -24,17 +24,17 @@ const checkRadioAnswers = (gameQuestion, radioGroups) => {
       }
     });
   });
-  return gameQuestion.every((question, index) => {
+  return gameQuestion.answers.every((question, index) => {
     return question.type === answers[index];
   });
 };
 
-const checkClickAnswer = (gameQuestion, answer) => gameQuestion[answer].type === TRIPLE_SCREEN_CORRECT_TYPE;
+const checkClickAnswer = (gameQuestion, answer) => gameQuestion.answers[answer].type === TRIPLE_SCREEN_CORRECT_TYPE;
 
 const checkForCorrect = (question, checkedItems) => {
-  if (question.length === 2 || question.length === 1) {
+  if (question.answers.length === 2 || question.answers.length === 1) {
     return checkRadioAnswers(question, checkedItems);
-  } else if (question.length === 3) {
+  } else if (question.answers.length === 3) {
     return checkClickAnswer(question, checkedItems);
   } else {
     return -1;

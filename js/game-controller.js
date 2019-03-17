@@ -1,7 +1,6 @@
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
 import {checkForCorrect} from './game-logick.js';
 import {AnswerTypes} from './game-data.js';
-import GameQuestions from './game-questions.js';
 import GameView from './game-view.js';
 import Application from './application.js';
 
@@ -21,7 +20,7 @@ class GameController {
   }
 
   initGame() {
-    this.question = GameQuestions[this.model.state.level - 1];
+    this.question = this.model.gameData[this.model.state.level - 1];
     this.gameView = new GameView(this.model.state, this.question, this.stopTimer);
 
     this.gameView.goToStartScreen = () => {
@@ -76,7 +75,7 @@ class GameController {
   }
 
   canContinue() {
-    if (this.model.state.lives > 0 && this.model.state.level < GameQuestions.length) {
+    if (this.model.state.lives > 0 && this.model.state.level < this.model.gameData.length) {
       this.startGame();
     } else {
       Application.showStats(this.model.state);

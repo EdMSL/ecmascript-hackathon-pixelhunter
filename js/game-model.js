@@ -2,7 +2,8 @@ import {GAME_STATE} from './game-data.js';
 import {setNextLevel, deleteLive, changeTime, setDefaultTime, changeAnswers} from './game-logick.js';
 
 class GameModel {
-  constructor(playerName) {
+  constructor(gameData, playerName) {
+    this.gameData = gameData;
     this.playerName = playerName;
     this.restart();
   }
