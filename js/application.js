@@ -6,8 +6,30 @@ import GameModel from './game-model.js';
 import GameController from './game-controller.js';
 import StatsController from './stats-controller.js';
 
+let gameData;
+
+const checkStatus = (response) => {
+  if (response.status >= 200 || response.status < 300) {
+    return response;
+  } else {
+    throw new Error(`${response.status}:${response.text}`);
+  }
+};
+
 class Application {
+  static start() {
+    window.fetch(`https://es.dump.academy/pixel-hunter/questions`).
+      then(checkStatus).
+      then((response) => response.json()).
+      then((data) => {
+        gameData = data;
+      }).
+      then(()=> Application.showGreeting()).
+      catch();
+  }
+
   static showWelcome() {
+    Application.start();
     const welcomeScreen = new IntroController();
     renderScreen(welcomeScreen.introView.element);
   }
