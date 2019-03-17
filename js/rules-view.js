@@ -43,17 +43,17 @@ class RulesView extends AbstractView {
 
     mainSection.insertAdjacentElement(`beforebegin`, this.header.headerView.element);
 
-    rulesForm.addEventListener(`submit`, (evt) => {
-      evt.preventDefault();
-      this.onSubmit();
-    });
-
     rulesInput.addEventListener(`input`, () => {
       if (rulesInput.value.length >= NAME_MIN_LENGTH) {
         rulesButton.disabled = ``;
       } else {
         rulesButton.disabled = true;
       }
+    });
+
+    rulesForm.addEventListener(`submit`, (evt) => {
+      evt.preventDefault();
+      this.onSubmit(rulesInput.value);
     });
   }
 }

@@ -22,8 +22,8 @@ class Application {
     renderScreen(rulesScreen.rulesView.element);
   }
 
-  static showGame() {
-    const gameScreen = new GameController(new GameModel());
+  static showGame(playerName) {
+    const gameScreen = new GameController(new GameModel(playerName));
     gameScreen.startGame();
   }
 
