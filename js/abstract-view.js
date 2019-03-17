@@ -1,4 +1,19 @@
 import {makeElementFromTemplate} from './utils.js';
+// const defaultContainer = {
+//   tagName: `div`,
+//   classList: `div-name`,
+//   id: document.querySelector(`#main`).id,
+// };
+
+
+// const makeElementFromTemplate = (template, tagName = `div`, className = ``, idName = ``) => {
+//   const element = document.createElement(tagName);
+//   element.classList.add(className);
+//   element.id = (idName) ? idName : ``;
+//   element.innerHTML = template;
+
+//   return element;
+// };
 
 class AbstractView {
   constructor() {

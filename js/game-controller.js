@@ -1,57 +1,116 @@
-import GameView from './game-view.js';
 import {renderScreen, isAllRadioGroupsChecked} from './utils.js';
-import {checkForCorrect, setNextLevel, deleteLive, changeAnswers} from './game-logick.js';
-import getStatsScreen from './stats-controller.js';
-import getHeaderScreen from './header-controller.js';
-import GameQuestions from './game-questions.js';
+import {checkForCorrect} from './game-logick.js';
 import {AnswerTypes} from './game-data.js';
+import GameQuestions from './game-questions.js';
+import GameView from './game-view.js';
+import Application from './application.js';
 
-const getNextGameScreen = (state, question, checkedItems) => {
-  if (checkForCorrect(question, checkedItems)) {
-    renderGameScreen(setNextLevel(changeAnswers(state, AnswerTypes.CORRECT)));
-  } else {
-    renderGameScreen(setNextLevel(deleteLive(changeAnswers(state, AnswerTypes.WRONG))));
+const ONE_SECOND = 1000;
+
+class GameController {
+  constructor(model) {
+    this.model = model;
+    this._timer = null;
   }
-};
 
-const getGameScreen = (state) => {
-  const gameScreen = new GameView(state);
+  startGame() {
+    this.model.setNextLevel();
+    this.initGame();
+    renderScreen(this.gameView.element);
+    this.startTimer();
+  }
 
-  gameScreen.onChange = () => {
-    let QuestionInputsGroups = gameScreen._element.querySelectorAll(`.game__option`);
-    let radioGroupsArr = [];
+  initGame() {
+    this.question = GameQuestions[this.model.state.level - 1];
+    this.gameView = new GameView(this.model.state, this.question, this.stopTimer);
 
-    QuestionInputsGroups.forEach((inputsGroup) => radioGroupsArr.push(inputsGroup.querySelectorAll(`input[type="radio"]`)));
+    this.gameView.goToStartScreen = () => {
+      this.stopTimer();
+      Application.showWelcome();
+    };
 
-    if (isAllRadioGroupsChecked(radioGroupsArr)) {
-      getNextGameScreen(gameScreen.state, gameScreen.question, radioGroupsArr);
+    this.gameView.onChange = () => {
+      let QuestionInputsGroups = this.gameView._element.querySelectorAll(`.game__option`);
+      let radioGroupsArr = [];
+
+      QuestionInputsGroups.forEach((inputsGroup) => radioGroupsArr.push(inputsGroup.querySelectorAll(`input[type="radio"]`)));
+
+      if (isAllRadioGroupsChecked(radioGroupsArr)) {
+        this.checkAnswers(radioGroupsArr);
+      } else {
+        return;
+      }
+    };
+
+    this.gameView.onClick = (evt) => {
+      const target = evt.target;
+
+      if (target.tagName !== `IMG`) {
+        return;
+      }
+
+      const images = this.gameView._element.querySelectorAll(`.game__option img`);
+      const clickedImgIndex = [...images].indexOf(target);
+
+      this.checkAnswers(clickedImgIndex);
+    };
+  }
+
+  checkAnswers(checkedItems) {
+    this.stopTimer();
+
+    if (checkForCorrect(this.question, checkedItems)) {
+      if (this.model.state.time > 20) {
+        this.model.changeAnswers(AnswerTypes.FAST);
+      } else if (this.model.state.time < 10) {
+        this.model.changeAnswers(AnswerTypes.SLOW);
+      } else {
+        this.model.changeAnswers(AnswerTypes.CORRECT);
+      }
     } else {
-      return;
-    }
-  };
-
-  gameScreen.onClick = (evt) => {
-    const target = evt.target;
-
-    if (target.tagName !== `IMG`) {
-      return;
+      this.model.changeAnswers(AnswerTypes.WRONG);
+      this.model.deleteLive();
     }
 
-    const images = gameScreen._element.querySelectorAll(`img`);
-    const clickedImgIndex = [...images].indexOf(target);
-
-    getNextGameScreen(gameScreen.state, gameScreen.question, clickedImgIndex);
-  };
-
-  return gameScreen;
-};
-
-const renderGameScreen = (state) => {
-  if (state.lives > 0 && state.level <= GameQuestions.length - 1) {
-    renderScreen([getHeaderScreen(state).element, getGameScreen(state).element]);
-  } else {
-    renderScreen([getStatsScreen(state).element]);
+    this.canContinue();
   }
-};
 
-export default renderGameScreen;
+  canContinue() {
+    if (this.model.state.lives > 0 && this.model.state.level < GameQuestions.length) {
+      this.startGame();
+    } else {
+      Application.showStats(this.model.state);
+    }
+  }
+
+  changeRemainingTime() {
+    this.model.changeTime();
+    this.gameView.updateHeader(this.model.state);
+  }
+
+  startTimer() {
+    this.model.setDefaultTime();
+    this.gameView.updateHeader(this.model.state);
+    this._timer = setInterval(() => {
+      this.changeRemainingTime();
+
+      if (this.model.state.time === 0) {
+        this.onTimeout();
+      }
+    }, ONE_SECOND);
+  }
+
+  stopTimer() {
+    clearInterval(this._timer);
+  }
+
+  onTimeout() {
+    this.stopTimer();
+    this.model.changeAnswers(AnswerTypes.WRONG);
+    this.model.deleteLive();
+    this.model.setDefaultTime();
+    this.canContinue();
+  }
+}
+
+export default GameController;

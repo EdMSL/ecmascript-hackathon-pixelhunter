@@ -1,4 +1,4 @@
-const main = document.querySelector(`#main`);
+const mainSection = document.querySelector(`#main`);
 
 const makeElementFromTemplate = (template) => {
   const element = document.createElement(`div`);
@@ -8,14 +8,17 @@ const makeElementFromTemplate = (template) => {
 };
 
 const clearScreen = () => {
-  main.innerHTML = ``;
+  mainSection.innerHTML = ``;
 };
 
-const renderScreen = (elements) => {
+const renderScreen = (element) => {
   clearScreen();
-  elements.forEach((template) => {
-    main.appendChild(template);
-  });
+  mainSection.appendChild(element);
+};
+
+const updateView = (container, view) => {
+  container.innerHTML = ``;
+  container.appendChild(view);
 };
 
 const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((element) => element.checked);
@@ -25,5 +28,6 @@ const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) 
 export {
   makeElementFromTemplate,
   renderScreen,
-  isAllRadioGroupsChecked
+  isAllRadioGroupsChecked,
+  updateView
 };

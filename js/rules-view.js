@@ -1,10 +1,15 @@
 import AbstractView from './abstract-view.js';
+import HeaderController from './header-controller.js';
 
 const NAME_MIN_LENGTH = 3;
 
 class RulesView extends AbstractView {
   constructor() {
     super();
+    this.header = new HeaderController();
+    this.header.goToStartScreen = () => {
+      this.goToStartScreen();
+    };
   }
 
   get template() {
@@ -31,14 +36,12 @@ class RulesView extends AbstractView {
   onSubmit() {}
 
   bind() {
+    const mainSection = this._element.querySelector(`section`);
     const rulesForm = this._element.querySelector(`.rules__form`);
     const rulesInput = this._element.querySelector(`.rules__input`);
     const rulesButton = this._element.querySelector(`.rules__button`);
 
-    rulesForm.addEventListener(`submit`, (evt) => {
-      evt.preventDefault();
-      this.onSubmit();
-    });
+    mainSection.insertAdjacentElement(`beforebegin`, this.header.headerView.element);
 
     rulesInput.addEventListener(`input`, () => {
       if (rulesInput.value.length >= NAME_MIN_LENGTH) {
@@ -46,6 +49,11 @@ class RulesView extends AbstractView {
       } else {
         rulesButton.disabled = true;
       }
+    });
+
+    rulesForm.addEventListener(`submit`, (evt) => {
+      evt.preventDefault();
+      this.onSubmit(rulesInput.value);
     });
   }
 }

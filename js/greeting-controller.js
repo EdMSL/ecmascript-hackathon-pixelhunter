@@ -1,14 +1,12 @@
 import GreetingView from './greeting-view.js';
-import {renderScreen} from './utils.js';
-import getHeaderScreen from './header-controller.js';
-import getRulesScreen from './rules-controller.js';
+import Application from './application.js';
 
-const getGreetingScreen = (state) => {
-  const greetingScreen = new GreetingView();
+class GreatingController {
+  constructor() {
+    this.greetingView = new GreetingView();
+    this.greetingView.onClick = () => Application.showRules();
+    this.greetingView.goToStartScreen = () => Application.showWelcome();
+  }
+}
 
-  greetingScreen.onClick = () => renderScreen([getHeaderScreen(state).element, getRulesScreen().element]);
-
-  return greetingScreen;
-};
-
-export default getGreetingScreen;
+export default GreatingController;

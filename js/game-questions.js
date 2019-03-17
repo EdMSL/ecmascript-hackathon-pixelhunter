@@ -7,7 +7,7 @@ const GameQuestions = [
     {
       img: `http://i.imgur.com/1KegWPz.jpg`,
       type: `photo`
-    },
+    }
   ],
 
   [

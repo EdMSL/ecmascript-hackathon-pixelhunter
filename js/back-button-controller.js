@@ -1,13 +1,14 @@
 import BackButtonView from './back-button-view.js';
-import getIntroScreen from './intro-controller.js';
-import {renderScreen} from './utils.js';
 
-const getBackButton = () => {
-  const backButton = new BackButtonView();
+class BackButtonController {
+  constructor() {
+    this.backButtonView = new BackButtonView();
+    this.backButtonView.onClick = () => {
+      this.goToStartScreen();
+    };
+  }
 
-  backButton.onClick = () => renderScreen([getIntroScreen().element]);
+  goToStartScreen() {}
+}
 
-  return backButton;
-};
-
-export default getBackButton;
+export default BackButtonController;

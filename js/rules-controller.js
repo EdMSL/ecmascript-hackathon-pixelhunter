@@ -1,13 +1,12 @@
 import RulesView from './rules-view.js';
-import renderGameScreen from './game-controller.js';
-import {GAME_STATE} from './game-data.js';
+import Application from './application.js';
 
-const getRulesScreen = () => {
-  const rulesScreen = new RulesView();
+class RulesController {
+  constructor() {
+    this.rulesView = new RulesView();
+    this.rulesView.onSubmit = (playerName) => Application.showGame(playerName);
+    this.rulesView.goToStartScreen = () => Application.showWelcome();
+  }
+}
 
-  rulesScreen.onSubmit = () => renderGameScreen(GAME_STATE);
-
-  return rulesScreen;
-};
-
-export default getRulesScreen;
+export default RulesController;

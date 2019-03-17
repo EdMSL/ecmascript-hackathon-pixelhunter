@@ -1,14 +1,11 @@
 import IntroView from './intro-view.js';
-import {renderScreen} from './utils.js';
-import getHeaderScreen from './header-controller.js';
-import getGreetingScreen from './greeting-controller.js';
+import Application from './application.js';
 
-const getIntroScreen = (state) => {
-  const introScreen = new IntroView();
+class IntroController {
+  constructor() {
+    this.introView = new IntroView();
+    this.introView.onClick = () => Application.showGreeting();
+  }
+}
 
-  introScreen.onClick = () => renderScreen([getHeaderScreen(state).element, getGreetingScreen().element]);
-
-  return introScreen;
-};
-
-export default getIntroScreen;
+export default IntroController;

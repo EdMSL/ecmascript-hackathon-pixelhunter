@@ -2,6 +2,7 @@ import getAnswersListTemplate from './answers-list.js';
 import {getScore} from './game-logick.js';
 import {PointsForGameStage, AnswerTypes} from './game-data.js';
 import AbstractView from './abstract-view.js';
+import HeaderController from './header-controller.js';
 
 const extraTypes = [AnswerTypes.FAST, `live`, AnswerTypes.SLOW];
 
@@ -54,7 +55,7 @@ const getWinTemplate = (state) => `
       ${getAnswersListTemplate(state)}
     </td>
     <td class="result__points">× ${PointsForGameStage[(AnswerTypes.CORRECT).toUpperCase()]}</td>
-    <td class="result__total">${findCurrentAnswerType(state, AnswerTypes.CORRECT) * PointsForGameStage[(AnswerTypes.CORRECT).toUpperCase()]}</td>
+    <td class="result__total">${(state.answers.length - findCurrentAnswerType(state, AnswerTypes.WRONG)) * PointsForGameStage[(AnswerTypes.CORRECT).toUpperCase()]}</td>
   </tr>
   ${getExtraBonusesAndPenalties(state)}
   <tr>
@@ -78,6 +79,10 @@ class StatsView extends AbstractView {
   constructor(state) {
     super();
     this.state = state;
+    this.header = new HeaderController();
+    this.header.goToStartScreen = () => {
+      this.goToStartScreen();
+    };
   }
 
   get template() {
@@ -89,6 +94,12 @@ class StatsView extends AbstractView {
         </table>
       </section>
     `;
+  }
+
+  bind() {
+    const mainSection = this._element.querySelector(`section`);
+
+    mainSection.insertAdjacentElement(`beforebegin`, this.header.headerView.element);
   }
 }
 

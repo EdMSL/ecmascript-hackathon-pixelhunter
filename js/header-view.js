@@ -1,8 +1,8 @@
 import AbstractView from './abstract-view.js';
-import getBackButton from './back-button-controller.js';
+import BackButtonController from './back-button-controller.js';
 
 const getGameLivesTemplate = (state) => `
-  <div class="game__timer">NN</div>
+  <div class="game__timer">${state.time}</div>
   <div class="game__lives">
   ${new Array(state.maxLives - state.lives)
     .fill(`<img src="img/heart__empty.svg" class="game__heart" alt="Life" width="31" height="27">`)
@@ -16,8 +16,14 @@ const getGameLivesTemplate = (state) => `
 class HeaderView extends AbstractView {
   constructor(state) {
     super();
+    this.backButton = new BackButtonController();
+    this.backButton.goToStartScreen = () => {
+      this.goToStartScreen();
+    };
+
     if (state) {
       this.state = state;
+      this.timerValue = this.element.querySelector(`.game__timer`);
     }
   }
 
@@ -34,9 +40,16 @@ class HeaderView extends AbstractView {
     return headerTemplate;
   }
 
+  updateTimer(state) {
+    this.state = state;
+    this.timerValue.textContent = this.state.time;
+  }
+
+  goToStartScreen() {}
+
   bind() {
-    const header = this._element.querySelector(`.header`);
-    header.insertAdjacentElement(`afterbegin`, getBackButton().element);
+    this.header = this._element.querySelector(`.header`);
+    this.header.insertAdjacentElement(`afterbegin`, this.backButton.backButtonView.element);
   }
 }
 
