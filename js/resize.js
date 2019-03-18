@@ -1,30 +1,15 @@
-const getAspectRatio = (width, height) => (width > height) ? width / height : height / width;
-
-const isWidthBiggest = (image) => {
-  if (image.width > image.height) {
-    return true;
-  } else if (image.width < image.height) {
-    return false;
-  } else {
-    return -1;
-  }
-};
-
 const resize = (frame, image) => {
   const newImageSize = {};
+  const frameMinSize = Math.min(frame.width, frame.height);
 
-  const imageAspectRatio = getAspectRatio(image.width, image.height);
+  const widthRatio = frame.width / image.width;
+  const heightRatio = frame.height / image.height;
 
-  const frameWidthBiggest = isWidthBiggest(frame);
-  const imageWidthBiggest = isWidthBiggest(image);
-
-  if (frameWidthBiggest && imageWidthBiggest === -1) {
-    newImageSize.width = newImageSize.height = frame.height;
-  } else if (!frameWidthBiggest && imageWidthBiggest === -1) {
-    newImageSize.width = newImageSize.height = frame.width;
+  if (image.width === image.height) {
+    newImageSize.width = newImageSize.height = frameMinSize;
   } else {
-    newImageSize.width = (imageWidthBiggest) ? frame.width : Math.floor(frame.height / imageAspectRatio);
-    newImageSize.height = (imageWidthBiggest) ? Math.floor(frame.width / imageAspectRatio) : frame.height;
+    newImageSize.width = (widthRatio < heightRatio) ? frame.width : Math.floor(heightRatio * image.width);
+    newImageSize.height = (widthRatio < heightRatio) ? Math.floor(widthRatio * image.height) : frame.height;
   }
 
   return newImageSize;

@@ -3,6 +3,7 @@ import {checkForCorrect} from './game-logick.js';
 import {AnswerTypes} from './game-data.js';
 import GameView from './game-view.js';
 import Application from './application.js';
+import resize from './resize.js';
 
 const ONE_SECOND = 1000;
 
@@ -52,6 +53,21 @@ class GameController {
       const clickedImgIndex = [...images].indexOf(target);
 
       this.checkAnswers(clickedImgIndex);
+    };
+
+    this.gameView.onImgLoad = (img, index, container) => {
+      const frame = this.model.gameData[this.model.state.level - 1].answers[index].image;
+      const given = {
+        width: img.naturalWidth,
+        height: img.naturalHeight
+      };
+
+      const newImgSize = resize(frame, given);
+      // img.style = `width: ${newImgSize.width}px; height: ${newImgSize.height}px`;
+      img.style.width = `${newImgSize.width}px`;
+      img.style.height = `${newImgSize.height}px`;
+      // img.width = newImgSize.width;
+      // img.height = newImgSize.height;
     };
   }
 
