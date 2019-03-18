@@ -1,6 +1,10 @@
 import {PointsForGameStage} from './game-data.js';
 import {AnswerTypes, GAME_STATE} from './game-data.js';
 
+const SINGLE_GAME_SCREEN = 1;
+const DOUBLE_GAME_SCREEN = 2;
+const TRIPLE_GAME_SCREEN = 3;
+
 const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1});
 
 const deleteLive = (state) => Object.assign({}, state, {lives: state.lives - 1});
@@ -45,9 +49,9 @@ const getCorrectAnswerType = (question) => {
 const checkClickAnswer = (gameQuestion, answer) => gameQuestion.answers[answer].type === getCorrectAnswerType(gameQuestion);
 
 const checkForCorrect = (question, checkedItems) => {
-  if (question.answers.length === 2 || question.answers.length === 1) {
+  if (question.answers.length === SINGLE_GAME_SCREEN || question.answers.length === DOUBLE_GAME_SCREEN) {
     return checkRadioAnswers(question, checkedItems);
-  } else if (question.answers.length === 3) {
+  } else if (question.answers.length === TRIPLE_GAME_SCREEN) {
     return checkClickAnswer(question, checkedItems);
   } else {
     return -1;

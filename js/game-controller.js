@@ -78,7 +78,7 @@ class GameController {
     if (this.model.state.lives > 0 && this.model.state.level < this.model.gameData.length) {
       this.startGame();
     } else {
-      Application.showStats(this.model.state);
+      Application.showStats(this.model);
     }
   }
 
