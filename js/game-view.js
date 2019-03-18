@@ -82,13 +82,12 @@ class GameView extends AbstractView {
     const mainSection = this._element.querySelector(`section`);
     const gameContentForm = this._element.querySelector(`.game__content`);
     const images = this.element.querySelectorAll(`.game__option img`);
-    const imgContainers = this.element.querySelectorAll(`.game__option`);
 
     mainSection.insertAdjacentElement(`beforebegin`, this.header.headerView.element);
 
     images.forEach((it, index) => {
       it.addEventListener(`load`, () => {
-        this.onImgLoad(it, index, imgContainers[index]);
+        this.onImgLoad(it, index);
       }, {once: true});
     });
 

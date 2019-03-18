@@ -1,6 +1,8 @@
 import AbstractView from './abstract-view.js';
 import BackButtonController from './back-button-controller.js';
 
+const DANGER_TIME = 5;
+
 const getGameLivesTemplate = (state) => `
   <div class="game__timer">${state.time}</div>
   <div class="game__lives">
@@ -43,6 +45,9 @@ class HeaderView extends AbstractView {
   updateTimer(state) {
     this.state = state;
     this.timerValue.textContent = this.state.time;
+    if (this.state.time === DANGER_TIME) {
+      this.timerValue.classList.add(`blink`);
+    }
   }
 
   goToStartScreen() {}

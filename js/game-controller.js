@@ -55,7 +55,7 @@ class GameController {
       this.checkAnswers(clickedImgIndex);
     };
 
-    this.gameView.onImgLoad = (img, index, container) => {
+    this.gameView.onImgLoad = (img, index) => {
       const frame = this.model.gameData[this.model.state.level - 1].answers[index].image;
       const given = {
         width: img.naturalWidth,
@@ -63,11 +63,8 @@ class GameController {
       };
 
       const newImgSize = resize(frame, given);
-      // img.style = `width: ${newImgSize.width}px; height: ${newImgSize.height}px`;
       img.style.width = `${newImgSize.width}px`;
       img.style.height = `${newImgSize.height}px`;
-      // img.width = newImgSize.width;
-      // img.height = newImgSize.height;
     };
   }
 
@@ -108,7 +105,6 @@ class GameController {
     this.gameView.updateHeader(this.model.state);
     this._timer = setInterval(() => {
       this.changeRemainingTime();
-
       if (this.model.state.time === 0) {
         this.onTimeout();
       }
