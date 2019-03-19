@@ -6,6 +6,12 @@ class HeaderController {
     this.headerView.goToStartScreen = () => {
       this.goToStartScreen();
     };
+    if (state) {
+    this.headerView.showConfirmModal = () => {
+      // console.log(`123`)
+      this.headerView.confirmModal.confirmView.modal.classList.remove(`modal--hidden`);
+    };
+    }
   }
 
   goToStartScreen() {}

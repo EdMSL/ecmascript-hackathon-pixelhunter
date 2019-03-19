@@ -1,5 +1,9 @@
 import AbstractView from './abstract-view.js';
 import BackButtonController from './back-button-controller.js';
+import ConfirmController from './confirm-controller.js';
+import Application from './application.js';
+
+const DANGER_TIME = 5;
 
 const getGameLivesTemplate = (state) => `
   <div class="game__timer">${state.time}</div>
@@ -17,13 +21,22 @@ class HeaderView extends AbstractView {
   constructor(state) {
     super();
     this.backButton = new BackButtonController();
-    this.backButton.goToStartScreen = () => {
-      this.goToStartScreen();
-    };
+    this.confirmModal = new ConfirmController();
 
     if (state) {
       this.state = state;
       this.timerValue = this.element.querySelector(`.game__timer`);
+
+      this.backButton.onClick = () => {
+        this.showConfirmModal();
+      };
+      this.confirmModal.goToStartScreen = () => {
+        this.goToStartScreen();
+      };
+    } else {
+      this.backButton.onClick = () => {
+        this.goToStartScreen();
+      };
     }
   }
 
@@ -43,13 +56,21 @@ class HeaderView extends AbstractView {
   updateTimer(state) {
     this.state = state;
     this.timerValue.textContent = this.state.time;
+    if (this.state.time === DANGER_TIME) {
+      this.timerValue.classList.add(`blink`);
+    }
   }
+
+  showConfirmModal() {}
 
   goToStartScreen() {}
 
   bind() {
     this.header = this._element.querySelector(`.header`);
     this.header.insertAdjacentElement(`afterbegin`, this.backButton.backButtonView.element);
+    if (this.state) {
+      this.header.appendChild(this.confirmModal.confirmView.element);
+    }
   }
 }
 

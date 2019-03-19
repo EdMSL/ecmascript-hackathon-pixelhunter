@@ -13,7 +13,7 @@ class GameModel {
   }
 
   restart() {
-    this._state = GAME_STATE;
+    this._state = Object.assign({}, GAME_STATE);
   }
 
   setNextLevel() {

@@ -1,4 +1,5 @@
-import {renderScreen, checkResponseStatus} from './utils.js';
+import {renderScreen} from './utils.js';
+import Loader from './loader.js';
 import ErrorController from './error-controller.js';
 import IntroController from './intro-controller.js';
 import GreetingController from './greeting-controller.js';
@@ -11,9 +12,7 @@ let gameData;
 
 class Application {
   static start() {
-    window.fetch(`https://es.dump.academy/pixel-hunter/questions`).
-      then(checkResponseStatus).
-      then((response) => response.json()).
+    Loader.loadGameData().
       then((data) => {
         gameData = data;
       }).
@@ -22,12 +21,12 @@ class Application {
   }
 
   static showWelcome() {
-    const welcomeScreen = new IntroController();
-    renderScreen(welcomeScreen.introView.element);
-    if (gameData) {
-      Application.showGreeting();
-    } else {
+    if (!gameData) {
+      const welcomeScreen = new IntroController();
+      renderScreen(welcomeScreen.introView.element);
       Application.start();
+    } else {
+      Application.showGreeting();
     }
   }
 
@@ -47,8 +46,12 @@ class Application {
   }
 
   static showStats(stats) {
-    const statsScreen = new StatsController(stats);
+    const playerName = stats.playerName;
+    const statsScreen = new StatsController(stats.state);
     renderScreen(statsScreen.statsView.element);
+    Loader.saveStats(stats.state, playerName).
+      then(() => Loader.loadStats(playerName)).
+      catch(Application.showError);
   }
 
   static showError(error) {

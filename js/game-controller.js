@@ -3,6 +3,7 @@ import {checkForCorrect} from './game-logick.js';
 import {AnswerTypes} from './game-data.js';
 import GameView from './game-view.js';
 import Application from './application.js';
+import resize from './resize.js';
 
 const ONE_SECOND = 1000;
 
@@ -53,6 +54,18 @@ class GameController {
 
       this.checkAnswers(clickedImgIndex);
     };
+
+    this.gameView.onImgLoad = (img, index) => {
+      const frame = this.model.gameData[this.model.state.level - 1].answers[index].image;
+      const given = {
+        width: img.naturalWidth,
+        height: img.naturalHeight
+      };
+
+      const newImgSize = resize(frame, given);
+      img.style.width = `${newImgSize.width}px`;
+      img.style.height = `${newImgSize.height}px`;
+    };
   }
 
   checkAnswers(checkedItems) {
@@ -78,7 +91,7 @@ class GameController {
     if (this.model.state.lives > 0 && this.model.state.level < this.model.gameData.length) {
       this.startGame();
     } else {
-      Application.showStats(this.model.state);
+      Application.showStats(this.model);
     }
   }
 
@@ -92,7 +105,6 @@ class GameController {
     this.gameView.updateHeader(this.model.state);
     this._timer = setInterval(() => {
       this.changeRemainingTime();
-
       if (this.model.state.time === 0) {
         this.onTimeout();
       }

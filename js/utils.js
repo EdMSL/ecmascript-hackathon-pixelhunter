@@ -25,18 +25,9 @@ const isRadioGroupChecked = (radioCollection) => [...radioCollection].some((elem
 
 const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) => isRadioGroupChecked(radioGroup));
 
-const checkResponseStatus = (response) => {
-  if (response.ok) {
-    return response;
-  } else {
-    throw new Error(`${response.status}`);
-  }
-};
-
 export {
   makeElementFromTemplate,
   renderScreen,
   isAllRadioGroupsChecked,
   updateView,
-  checkResponseStatus,
 };

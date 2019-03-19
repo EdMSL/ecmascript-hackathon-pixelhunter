@@ -3,6 +3,7 @@ import AbstractView from './abstract-view.js';
 class BackButtonView extends AbstractView {
   constructor() {
     super();
+
   }
 
   get template() {
