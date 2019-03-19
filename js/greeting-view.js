@@ -26,9 +26,6 @@ class GreetingView extends AbstractView {
             <use xlink:href="img/sprite.svg#arrow-right"></use>
           </svg>
         </button>
-        <button class="greeting__top top" type="button">
-          <img src="img/icon-top.svg" width="71" height="79" alt="Топ игроков">
-        </button>
       </section>
     `;
   }
