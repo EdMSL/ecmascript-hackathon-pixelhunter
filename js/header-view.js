@@ -1,6 +1,7 @@
 import AbstractView from './abstract-view.js';
 import BackButtonController from './back-button-controller.js';
 import ConfirmController from './confirm-controller.js';
+import Application from './application.js';
 
 const DANGER_TIME = 5;
 
@@ -21,16 +22,21 @@ class HeaderView extends AbstractView {
     super();
     this.backButton = new BackButtonController();
     this.confirmModal = new ConfirmController();
-    this.backButton.showConfirmModal = () => {
-      this.showConfirmModal();
-    };
-    this.confirmModal.goToStartScreen = () => {
-      this.goToStartScreen();
-    };
 
     if (state) {
       this.state = state;
       this.timerValue = this.element.querySelector(`.game__timer`);
+
+      this.backButton.onClick = () => {
+        this.showConfirmModal();
+      };
+      this.confirmModal.goToStartScreen = () => {
+        this.goToStartScreen();
+      };
+    } else {
+      this.backButton.onClick = () => {
+        this.goToStartScreen();
+      };
     }
   }
 
@@ -62,7 +68,9 @@ class HeaderView extends AbstractView {
   bind() {
     this.header = this._element.querySelector(`.header`);
     this.header.insertAdjacentElement(`afterbegin`, this.backButton.backButtonView.element);
-    this.header.appendChild(this.confirmModal.confirmView.element);
+    if (this.state) {
+      this.header.appendChild(this.confirmModal.confirmView.element);
+    }
   }
 }
 

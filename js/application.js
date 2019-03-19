@@ -21,12 +21,12 @@ class Application {
   }
 
   static showWelcome() {
-    const welcomeScreen = new IntroController();
-    renderScreen(welcomeScreen.introView.element);
-    if (gameData) {
-      Application.showGreeting();
-    } else {
+    if (!gameData) {
+      const welcomeScreen = new IntroController();
+      renderScreen(welcomeScreen.introView.element);
       Application.start();
+    } else {
+      Application.showGreeting();
     }
   }
 

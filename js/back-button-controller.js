@@ -3,10 +3,10 @@ import BackButtonView from './back-button-view.js';
 class BackButtonController {
   constructor() {
     this.backButtonView = new BackButtonView();
-    this.backButtonView.onClick = () => this.showConfirmModal();
+    this.backButtonView.onClick = () => this.onClick();
   }
 
-  showConfirmModal() {}
+  onClick() {}
 }
 
 export default BackButtonController;
