@@ -11,6 +11,8 @@
     "test": "gulp test"
   },
   "devDependencies": {
+    "@babel/core": "7.3.4",
+    "@babel/preset-env": "7.3.4",
     "autoprefixer": "8.5.1",
     "browser-sync": "2.24.4",
     "chai": "4.2.0",
@@ -29,11 +31,17 @@
     "gulp-sass": "4.0.1",
     "gulp-sourcemaps": "2.6.4",
     "gulp-svgstore": "6.1.1",
+    "gulp-uglify": "3.0.2",
+    "rollup-plugin-babel": "4.3.2",
     "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-node-resolve": "4.0.1",
     "stylelint": "8.4.x",
     "stylelint-config-htmlacademy": "0.1.x"
   },
   "engines": {
     "node": "8"
+  },
+  "dependencies": {
+    "@babel/polyfill": "7.2.5"
   }
 }
