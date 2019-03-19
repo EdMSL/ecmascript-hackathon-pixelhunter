@@ -26,7 +26,7 @@ class GameController {
 
     this.gameView.goToStartScreen = () => {
       this.stopTimer();
-      Application.showGreeting();
+      Application.showWelcome();
     };
 
     this.gameView.onChange = () => {

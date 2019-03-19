@@ -1,10 +1,10 @@
-let GAME_STATE = {
+const GAME_STATE = Object.freeze({
   level: 0,
   lives: 3,
   maxLives: 3,
   time: 30,
   answers: [`unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`, `unknown`]
-};
+});
 
 const PointsForGameStage = {
   CORRECT: 100,

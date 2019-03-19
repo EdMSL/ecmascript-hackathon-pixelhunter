@@ -10,9 +10,11 @@ const setNextLevel = (state) => Object.assign({}, state, {level: state.level + 1
 const deleteLive = (state) => Object.assign({}, state, {lives: state.lives - 1});
 
 const addAnswer = (state, newAnswer) => {
-  state.answers[state.level - 1] = newAnswer;
+  const newAnswersArr = state.answers.slice();
 
-  return state.answers;
+  newAnswersArr[state.level - 1] = newAnswer;
+
+  return newAnswersArr;
 };
 
 const changeAnswers = (state, newAnswer) => Object.assign({}, state, {answers: addAnswer(state, newAnswer)});
