@@ -12,12 +12,16 @@ let gameData;
 
 class Application {
   static start() {
-    Loader.loadGameData().
-      then((data) => {
-        gameData = data;
-      }).
-      then(()=> Application.showGreeting()).
-      catch(Application.showError);
+    Application.load.catch(Application.showError);
+  }
+
+  static async load() {
+    try {
+      gameData = await Loader.loadGameData();
+      Application.showGreeting();
+    } finally {
+      console.log(`Complete`);
+    }
   }
 
   static showWelcome() {
