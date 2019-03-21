@@ -20,7 +20,7 @@ class GreetingView extends AbstractView {
             <li>Помни, главное — смотреть очень внимательно.</li>
           </ul>
         </div>
-        <button class="greeting__continue" type="button">
+        <button class="greeting__continue" type="button" disabled>
           <span class="visually-hidden">Продолжить</span>
           <svg class="icon" width="64" height="64" viewBox="0 0 64 64" fill="#000000">
             <use xlink:href="img/sprite.svg#arrow-right"></use>
@@ -35,10 +35,10 @@ class GreetingView extends AbstractView {
   goToStartScreen() {}
 
   bind() {
-    const greetingButton = this._element.querySelector(`.greeting__continue`);
-    this.section = this._element.querySelector(`section`);
+    this.greetingSection = this._element.querySelector(`section.greeting`);
+    this.greetingButton = this._element.querySelector(`.greeting__continue`);
 
-    greetingButton.addEventListener(`click`, (evt) => {
+    this.greetingButton.addEventListener(`click`, (evt) => {
       evt.preventDefault();
       this.onClick();
     });

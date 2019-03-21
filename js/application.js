@@ -8,6 +8,8 @@ import GameModel from './game-model.js';
 import GameController from './game-controller.js';
 import StatsController from './stats-controller.js';
 
+const CROSSFADE_TIME = 1500;
+
 let gameData;
 let isFirstLoad = true;
 
@@ -39,14 +41,13 @@ class Application {
     const greetingScreen = new GreetingController();
     if (isFirstLoad) {
       renderGreetingScreen(greetingScreen.greetingView.element);
-      isFirstLoad = false;
       setTimeout(()=> {
-        const main = document.querySelector(`#main`);
-        const intro = document.querySelector(`#intro`);
-        main.removeChild(intro);
-      }, 3000);
+        greetingScreen.greetingView.onDataLoad(isFirstLoad);
+      }, CROSSFADE_TIME);
+      isFirstLoad = false;
     } else {
       renderScreen(greetingScreen.greetingView.element);
+      greetingScreen.greetingView.onDataLoad();
     }
   }
 

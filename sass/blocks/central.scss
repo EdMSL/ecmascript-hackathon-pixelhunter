@@ -25,12 +25,12 @@
   position: absolute;
   top: 30px;
   left: calc(50% - 400px);
-  animation: crossfade 3s linear;
+  animation: crossfade 1.5s linear;
   animation-fill-mode: forwards;
 }
 
 .central--blur-end {
-  animation: crossfade 3s linear;
+  animation: crossfade 1.5s linear;
   animation-fill-mode: forwards;
   animation-direction: reverse;
 }
