@@ -1,4 +1,4 @@
-import {renderScreen} from './utils.js';
+import {renderScreen, renderGreetingScreen} from './utils.js';
 import Loader from './loader.js';
 import ErrorController from './error-controller.js';
 import IntroController from './intro-controller.js';
@@ -9,6 +9,7 @@ import GameController from './game-controller.js';
 import StatsController from './stats-controller.js';
 
 let gameData;
+let isFirstLoad = true;
 
 class Application {
   static start() {
@@ -36,7 +37,17 @@ class Application {
 
   static showGreeting() {
     const greetingScreen = new GreetingController();
-    renderScreen(greetingScreen.greetingView.element);
+    if (isFirstLoad) {
+      renderGreetingScreen(greetingScreen.greetingView.element);
+      isFirstLoad = false;
+      setTimeout(()=> {
+        const main = document.querySelector(`#main`);
+        const intro = document.querySelector(`#intro`);
+        main.removeChild(intro);
+      }, 3000);
+    } else {
+      renderScreen(greetingScreen.greetingView.element);
+    }
   }
 
   static showRules() {

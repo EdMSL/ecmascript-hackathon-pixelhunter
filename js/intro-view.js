@@ -13,6 +13,10 @@ class IntroView extends AbstractView {
       </section>
     `;
   }
+
+  bind() {
+    this.section = this._element.querySelector(`section`);
+  }
 }
 
 export default IntroView;

@@ -7,7 +7,7 @@ class GreetingView extends AbstractView {
 
   get template() {
     return `
-      <section class="greeting central--blur">
+      <section class="greeting central--blur-end">
         <img class="greeting__logo" src="img/logo_ph-big.svg" width="201" height="89" alt="Pixel Hunter">
         <div class="greeting__asterisk asterisk"><span class="visually-hidden">Я просто красивая звёздочка</span>*</div>
         <div class="greeting__challenge">
@@ -36,6 +36,7 @@ class GreetingView extends AbstractView {
 
   bind() {
     const greetingButton = this._element.querySelector(`.greeting__continue`);
+    this.section = this._element.querySelector(`section`);
 
     greetingButton.addEventListener(`click`, (evt) => {
       evt.preventDefault();

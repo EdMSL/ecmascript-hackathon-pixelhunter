@@ -1,4 +1,4 @@
-const mainSection = document.querySelector(`#main`);
+const body = document.querySelector(`main`);
 
 const makeElementFromTemplate = (template) => {
   const element = document.createElement(`div`);
@@ -7,13 +7,33 @@ const makeElementFromTemplate = (template) => {
   return element;
 };
 
-const clearScreen = () => {
-  mainSection.innerHTML = ``;
+const renderScreen = (element) => {
+  const mainSection = document.querySelector(`#main`);
+  const mainId = mainSection.id;
+  const mainClass = mainSection.classList.value;
+
+  mainSection.id = ``;
+  element.id = mainId;
+  element.className = mainClass;
+
+  body.replaceChild(element, mainSection);
 };
 
-const renderScreen = (element) => {
-  clearScreen();
-  mainSection.appendChild(element);
+const renderGreetingScreen = (element) => {
+  const mainSection = document.querySelector(`#main`);
+  const mainId = mainSection.id;
+  const mainClass = mainSection.classList.value;
+  const intro = mainSection.children[0];
+  intro.classList.add(`central--blur-start`);
+  const greetingSection = element.querySelector(`section`);
+
+  greetingSection.insertAdjacentElement(`beforebegin`, intro);
+
+  mainSection.id = ``;
+  element.id = mainId;
+  element.className = mainClass;
+
+  body.replaceChild(element, mainSection);
 };
 
 const updateView = (container, view) => {
@@ -27,6 +47,7 @@ const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) 
 
 export {
   makeElementFromTemplate,
+  renderGreetingScreen,
   renderScreen,
   isAllRadioGroupsChecked,
   updateView,
