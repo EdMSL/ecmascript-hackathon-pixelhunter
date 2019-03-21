@@ -7,27 +7,18 @@ const makeElementFromTemplate = (template) => {
   return element;
 };
 
-const renderScreen = (element) => {
+const renderScreen = (element, isCrossfade) => {
   const mainSection = document.querySelector(`#main`);
   const mainId = mainSection.id;
   const mainClass = mainSection.classList.value;
 
-  mainSection.id = ``;
-  element.id = mainId;
-  element.className = mainClass;
+  if (isCrossfade) {
+    const downScreen = mainSection.querySelector(`section:first-of-type`);
+    const upScreen = element.querySelector(`section`);
+    downScreen.classList.add(`central--blur-start`);
 
-  body.replaceChild(element, mainSection);
-};
-
-const renderGreetingScreen = (element) => {
-  const mainSection = document.querySelector(`#main`);
-  const mainId = mainSection.id;
-  const mainClass = mainSection.classList.value;
-  const intro = mainSection.children[0];
-  intro.classList.add(`central--blur-start`);
-  const greetingSection = element.querySelector(`section`);
-
-  greetingSection.insertAdjacentElement(`beforebegin`, intro);
+    upScreen.insertAdjacentElement(`beforebegin`, downScreen);
+  }
 
   mainSection.id = ``;
   element.id = mainId;
@@ -47,7 +38,6 @@ const isAllRadioGroupsChecked = (radioGroups) => radioGroups.every((radioGroup) 
 
 export {
   makeElementFromTemplate,
-  renderGreetingScreen,
   renderScreen,
   isAllRadioGroupsChecked,
   updateView,

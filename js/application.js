@@ -1,4 +1,4 @@
-import {renderScreen, renderGreetingScreen} from './utils.js';
+import {renderScreen} from './utils.js';
 import Loader from './loader.js';
 import ErrorController from './error-controller.js';
 import IntroController from './intro-controller.js';
@@ -40,11 +40,11 @@ class Application {
   static showGreeting() {
     const greetingScreen = new GreetingController();
     if (isFirstLoad) {
-      renderGreetingScreen(greetingScreen.greetingView.element);
+      renderScreen(greetingScreen.greetingView.element, true);
       setTimeout(()=> {
         greetingScreen.greetingView.onDataLoad(isFirstLoad);
+        isFirstLoad = false;
       }, CROSSFADE_TIME);
-      isFirstLoad = false;
     } else {
       renderScreen(greetingScreen.greetingView.element);
       greetingScreen.greetingView.onDataLoad();
