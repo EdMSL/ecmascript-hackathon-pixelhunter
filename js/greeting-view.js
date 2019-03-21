@@ -32,6 +32,8 @@ class GreetingView extends AbstractView {
 
   onClick() {}
 
+  onGameLoad() {}
+
   goToStartScreen() {}
 
   bind() {

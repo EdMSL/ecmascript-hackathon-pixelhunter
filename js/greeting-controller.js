@@ -6,7 +6,7 @@ class GreatingController {
     this.greetingView = new GreetingView();
     this.greetingView.onClick = () => Application.showRules();
     this.greetingView.goToStartScreen = () => Application.showWelcome();
-    this.greetingView.onDataLoad = (isFirstLoad) => {
+    this.greetingView.onGameLoad = (isFirstLoad) => {
       if (isFirstLoad) {
         const main = document.querySelector(`#main`);
         const intro = this.greetingView.element.querySelector(`#intro`);

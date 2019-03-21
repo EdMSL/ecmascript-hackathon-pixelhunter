@@ -42,12 +42,12 @@ class Application {
     if (isFirstLoad) {
       renderScreen(greetingScreen.greetingView.element, true);
       setTimeout(()=> {
-        greetingScreen.greetingView.onDataLoad(isFirstLoad);
+        greetingScreen.greetingView.onGameLoad(isFirstLoad);
         isFirstLoad = false;
       }, CROSSFADE_TIME);
     } else {
       renderScreen(greetingScreen.greetingView.element);
-      greetingScreen.greetingView.onDataLoad();
+      greetingScreen.greetingView.onGameLoad();
     }
   }
 
