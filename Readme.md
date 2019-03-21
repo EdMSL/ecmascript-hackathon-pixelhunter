@@ -3,6 +3,7 @@
 * Студент: [Трайт Эдуард](https://htmlacademy.ru/profile/edmsl).
 * Наставник: [Выполняю самостоятельно].
 
+[Посмотреть в готовом виде](https://edmsl-compilation.000webhostapp.com/pixelhunter/index.html)
 
 ---
 
