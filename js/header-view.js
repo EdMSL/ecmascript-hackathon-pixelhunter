@@ -1,7 +1,6 @@
 import AbstractView from './abstract-view.js';
 import BackButtonController from './back-button-controller.js';
 import ConfirmController from './confirm-controller.js';
-import Application from './application.js';
 
 const DANGER_TIME = 5;
 
