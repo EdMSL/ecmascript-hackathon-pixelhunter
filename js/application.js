@@ -8,11 +8,14 @@ import GameModel from './game-model.js';
 import GameController from './game-controller.js';
 import StatsController from './stats-controller.js';
 
+const CROSSFADE_TIME = 1500;
+
 let gameData;
+let isFirstLoad = true;
 
 class Application {
   static start() {
-    Application.load.catch(Application.showError);
+    Application.load().catch(Application.showError);
   }
 
   static async load() {
@@ -36,7 +39,16 @@ class Application {
 
   static showGreeting() {
     const greetingScreen = new GreetingController();
-    renderScreen(greetingScreen.greetingView.element);
+    if (isFirstLoad) {
+      renderScreen(greetingScreen.greetingView.element, true);
+      setTimeout(()=> {
+        greetingScreen.greetingView.onGameLoad(isFirstLoad);
+        isFirstLoad = false;
+      }, CROSSFADE_TIME);
+    } else {
+      renderScreen(greetingScreen.greetingView.element);
+      greetingScreen.greetingView.onGameLoad();
+    }
   }
 
   static showRules() {
@@ -49,13 +61,16 @@ class Application {
     gameScreen.startGame();
   }
 
-  static showStats(stats) {
+  static async showStats(stats) {
     const playerName = stats.playerName;
-    const statsScreen = new StatsController(stats.state);
-    renderScreen(statsScreen.statsView.element);
-    Loader.saveStats(stats.state, playerName).
-      then(() => Loader.loadStats(playerName)).
-      catch(Application.showError);
+    try {
+      await Loader.saveStats(stats.state, playerName);
+      const response = await Loader.loadStats(playerName);
+      const statsScreen = new StatsController(response[response.length - 1]);
+      renderScreen(statsScreen.statsView.element);
+    } catch (error) {
+      Application.showError(error);
+    }
   }
 
   static showError(error) {

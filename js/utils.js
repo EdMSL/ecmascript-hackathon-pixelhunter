@@ -1,4 +1,4 @@
-const mainSection = document.querySelector(`#main`);
+const body = document.querySelector(`main`);
 
 const makeElementFromTemplate = (template) => {
   const element = document.createElement(`div`);
@@ -7,13 +7,24 @@ const makeElementFromTemplate = (template) => {
   return element;
 };
 
-const clearScreen = () => {
-  mainSection.innerHTML = ``;
-};
+const renderScreen = (element, isCrossfade) => {
+  const mainSection = document.querySelector(`#main`);
+  const mainId = mainSection.id;
+  const mainClass = mainSection.classList.value;
 
-const renderScreen = (element) => {
-  clearScreen();
-  mainSection.appendChild(element);
+  if (isCrossfade) {
+    const downScreen = mainSection.querySelector(`section:first-of-type`);
+    const upScreen = element.querySelector(`section`);
+    downScreen.classList.add(`central--blur-start`);
+
+    upScreen.insertAdjacentElement(`beforebegin`, downScreen);
+  }
+
+  mainSection.id = ``;
+  element.id = mainId;
+  element.className = mainClass;
+
+  body.replaceChild(element, mainSection);
 };
 
 const updateView = (container, view) => {

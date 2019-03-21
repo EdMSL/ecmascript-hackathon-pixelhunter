@@ -20,3 +20,27 @@
   padding-top: 30px;
   min-height: 740px;
 }
+
+.intro.central--blur-start {
+  position: absolute;
+  top: 30px;
+  left: calc(50% - 400px);
+  animation: crossfade 1.5s linear;
+  animation-fill-mode: forwards;
+}
+
+.central--blur-end {
+  animation: crossfade 1.5s linear;
+  animation-fill-mode: forwards;
+  animation-direction: reverse;
+}
+
+@keyframes crossfade {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
