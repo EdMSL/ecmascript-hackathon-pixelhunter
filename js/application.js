@@ -12,7 +12,7 @@ let gameData;
 
 class Application {
   static start() {
-    Application.load.catch(Application.showError);
+    Application.load().catch(Application.showError);
   }
 
   static async load() {
@@ -49,13 +49,16 @@ class Application {
     gameScreen.startGame();
   }
 
-  static showStats(stats) {
+  static async showStats(stats) {
     const playerName = stats.playerName;
-    const statsScreen = new StatsController(stats.state);
-    renderScreen(statsScreen.statsView.element);
-    Loader.saveStats(stats.state, playerName).
-      then(() => Loader.loadStats(playerName)).
-      catch(Application.showError);
+    try {
+      await Loader.saveStats(stats.state, playerName);
+      const response = await Loader.loadStats(playerName);
+      const statsScreen = new StatsController(response[response.length - 1]);
+      renderScreen(statsScreen.statsView.element);
+    } catch (error) {
+      Application.showError(error);
+    }
   }
 
   static showError(error) {

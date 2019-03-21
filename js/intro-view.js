@@ -19,10 +19,10 @@ class IntroView extends AbstractView {
   bind() {
     const introButton = this._element.querySelector(`.intro__asterisk`);
 
-    introButton.addEventListener(`click`, (evt) => {
-      evt.preventDefault();
-      this.onClick();
-    });
+    // introButton.addEventListener(`click`, (evt) => {
+    //   evt.preventDefault();
+    //   this.onClick();
+    // });
   }
 }
 
